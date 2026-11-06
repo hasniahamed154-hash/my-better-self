@@ -66,6 +66,7 @@ border-bottom:1px solid #eff3ef}
 padding:12px;border-radius:12px;font-size:12px}
 .empty{color:var(--muted);font-size:13px;padding:12px 0}
 .big-number{font-size:26px;font-weight:800;color:var(--g)}
+.exchange-result{font-size:25px;font-weight:850;color:var(--g);overflow-wrap:anywhere}
 footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
 @media(min-width:650px){
 .quick{grid-template-columns:repeat(4,1fr)}
@@ -105,7 +106,6 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
  <button data-tab="settings">Settings</button>
 </nav>
 
-<!-- HOME -->
 <section class="panel active" id="home">
  <div class="card">
   <div class="row">
@@ -135,7 +135,6 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
  </div>
 </section>
 
-<!-- MONEY -->
 <section class="panel" id="money">
 
  <div class="card">
@@ -143,7 +142,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   <p class="muted">All amounts in AED.</p>
   <div class="grid2">
    <div><label>Monthly salary</label><input type="number" id="salary" min="0"></div>
-   <div><label>Family remittance</label><input type="number" id="family" min="0"></div>
+   <div><label>Family remittance budget</label><input type="number" id="family" min="0"></div>
    <div><label>Food budget</label><input type="number" id="foodBudget" min="0"></div>
    <div><label>Wi-Fi</label><input type="number" id="wifi" min="0"></div>
    <div><label>Advance repayment</label><input type="number" id="advance" min="0"></div>
@@ -152,6 +151,27 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   <label>Monthly payday (day of month)</label>
   <input type="number" id="paydayDay" min="1" max="31" value="15">
   <button class="primary" id="saveBudget" style="margin-top:12px">Save salary plan</button>
+ </div>
+
+ <!-- REMITTANCE EXCHANGE -->
+ <div class="card" style="background:#f0f7f2">
+  <h2>🇱🇰 Remittance & Currency Exchange</h2>
+  <p class="muted">Calculate the estimated Sri Lankan rupees your family may receive.</p>
+
+  <label>Amount you are sending (AED)</label>
+  <input type="number" id="remitAmount" min="0" step="0.01" placeholder="Example: 600">
+
+  <label>Exchange rate (1 AED = LKR)</label>
+  <input type="number" id="exchangeRate" min="0" step="0.01" placeholder="Enter rate">
+
+  <div style="margin-top:14px">
+   <label>Estimated amount in Sri Lankan rupees</label>
+   <div class="exchange-result" id="lkrResult">LKR 0.00</div>
+  </div>
+
+  <button class="primary" id="updateExchange" style="margin-top:14px">Get latest online rate</button>
+  <p id="exchangeStatus" class="muted">Enter your transfer amount and exchange rate. The calculator updates automatically.</p>
+  <p class="muted">The online rate is a reference rate. Your exchange company may offer a different rate or charge fees.</p>
  </div>
 
  <div class="card" style="background:#f0f7f2">
@@ -226,10 +246,8 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
    <strong id="reportTotal">AED 0</strong>
   </div>
  </div>
-
 </section>
 
-<!-- HEALTH -->
 <section class="panel" id="health">
  <div class="card">
   <h2>Skin & grooming</h2>
@@ -243,7 +261,6 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
  </div>
 </section>
 
-<!-- FOOD -->
 <section class="panel" id="food">
  <div class="card">
   <h2>Affordable daily food plan</h2>
@@ -259,7 +276,6 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
  </div>
 </section>
 
-<!-- SETTINGS -->
 <section class="panel" id="settings">
  <div class="card">
   <h2>🔔 Reminders</h2>
@@ -279,7 +295,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
  </div>
  <div class="card">
   <h2>About EVOLV</h2>
-  <p class="muted">EVOLV · Be a Better You · Version 3.0</p>
+  <p class="muted">EVOLV · Be a Better You · Version 4.0</p>
   <p class="muted">Health • Money • Confidence • Growth</p>
  </div>
 </section>
@@ -291,18 +307,23 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
 const $=id=>document.getElementById(id);
 const money=n=>"AED "+(Number(n)||0).toFixed(2);
 const today=()=>localDate(new Date());
+
 function localDate(d){
  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
 }
+
 const defaults={
  budget:{salary:1200,family:700,food:230,wifi:20,advance:0,fixed:0},
  paydayDay:15,
+ remitAmount:700,
+ exchangeRate:90,
  expenses:[],
  savingsWallet:0,
  savingsHistory:[],
  goal:{name:"Emergency savings",target:0,saved:0},
  habits:{},note:""
 };
+
 let data;
 try{
  const old=JSON.parse(localStorage.getItem("mbs-data")||"null");
@@ -312,11 +333,14 @@ try{
  data.expenses=Array.isArray(data.expenses)?data.expenses:[];
  data.savingsHistory=Array.isArray(data.savingsHistory)?data.savingsHistory:[];
  data.habits=data.habits||{};
-}catch(e){data=JSON.parse(JSON.stringify(defaults));}
+}catch(e){
+ data=JSON.parse(JSON.stringify(defaults));
+}
 
 function save(){
  localStorage.setItem("mbs-data",JSON.stringify(data));
 }
+
 $("todayDate").textContent=new Date().toLocaleDateString(undefined,{
  weekday:"short",day:"numeric",month:"short",year:"numeric"
 });
@@ -401,12 +425,8 @@ function calculateMoney(){
 
  const commitments=family+wifi+advance+fixed;
  const foodRemaining=food-foodSpent;
-
- // Money available for flexible spending after planned commitments.
  const available=salary-commitments-food-otherSpent;
  const daily=available>0?available/getCycle().remaining:0;
-
- // Forecast includes unused food budget and flexible money.
  const forecast=salary-commitments-foodSpent-otherSpent;
 
  return {
@@ -496,21 +516,62 @@ $("saveBudget").onclick=()=>{
  alert("Your salary plan has been saved!");
 };
 
-$("addExpense").onclick=()=>{
- const amount=Number($("expenseAmount").value);
- if(!Number.isFinite(amount)||amount<=0){
-  alert("Enter a valid expense amount.");
-  return;
- }
- data.expenses.unshift({
-  id:Date.now(),amount,
-  category:$("expenseCategory").value,
-  note:$("expenseNote").value.trim(),
-  date:today()
+// REMITTANCE CALCULATOR
+function renderExchange(){
+ $("remitAmount").value=data.remitAmount ?? data.budget.family ?? 0;
+ $("exchangeRate").value=data.exchangeRate ?? 90;
+ calculateExchange();
+}
+
+function calculateExchange(){
+ const amount=Number($("remitAmount").value)||0;
+ const rate=Number($("exchangeRate").value)||0;
+ const result=amount*rate;
+
+ $("lkrResult").textContent="LKR "+result.toLocaleString("en-LK",{
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
  });
- $("expenseAmount").value="";
- $("expenseNote").value="";
- save();renderExpenses();updateDashboard();
+
+ data.remitAmount=amount;
+ data.exchangeRate=rate;
+ save();
+}
+
+$("remitAmount").addEventListener("input",calculateExchange);
+$("exchangeRate").addEventListener("input",calculateExchange);
+
+$("updateExchange").onclick=async()=>{
+ const button=$("updateExchange");
+ button.disabled=true;
+ button.textContent="Getting rate...";
+
+ $("exchangeStatus").textContent="Connecting to exchange-rate service...";
+ try{
+  const response=await fetch("https://open.er-api.com/v6/latest/AED");
+  if(!response.ok)throw new Error("Rate unavailable");
+
+  const result=await response.json();
+  const rate=Number(result.rates?.LKR);
+  if(!rate)throw new Error("Rate unavailable");
+
+  $("exchangeRate").value=rate.toFixed(2);
+  calculateExchange();
+
+  const updated=result.time_last_update_utc
+   ? " Rate data: "+result.time_last_update_utc
+   : "";
+
+  $("exchangeStatus").textContent=
+   "Reference rate updated successfully."+updated+
+   " Check your exchange provider's actual rate and fees.";
+ }catch(error){
+  $("exchangeStatus").textContent=
+   "Could not get the online rate. Enter your exchange company's rate manually.";
+ }finally{
+  button.disabled=false;
+  button.textContent="Get latest online rate";
+ }
 };
 
 function renderExpenses(){
@@ -532,6 +593,23 @@ function renderExpenses(){
   };
  });
 }
+
+$("addExpense").onclick=()=>{
+ const amount=Number($("expenseAmount").value);
+ if(!Number.isFinite(amount)||amount<=0){
+  alert("Enter a valid expense amount.");
+  return;
+ }
+ data.expenses.unshift({
+  id:Date.now(),amount,
+  category:$("expenseCategory").value,
+  note:$("expenseNote").value.trim(),
+  date:today()
+ });
+ $("expenseAmount").value="";
+ $("expenseNote").value="";
+ save();renderExpenses();updateDashboard();
+};
 
 function renderReports(){
  const month=today().slice(0,7);
@@ -557,9 +635,7 @@ $("addSaving").onclick=()=>{
   return;
  }
  data.savingsWallet+=amount;
- data.savingsHistory.unshift({
-  amount,type:"Deposit",date:today()
- });
+ data.savingsHistory.unshift({amount,type:"Deposit",date:today()});
  $("saveAmount").value="";
  save();renderSavings();updateDashboard();
 };
@@ -571,9 +647,7 @@ $("withdrawSaving").onclick=()=>{
   return;
  }
  data.savingsWallet-=amount;
- data.savingsHistory.unshift({
-  amount,type:"Withdrawal",date:today()
- });
+ data.savingsHistory.unshift({amount,type:"Withdrawal",date:today()});
  $("withdrawAmount").value="";
  save();renderSavings();updateDashboard();
 };
@@ -583,7 +657,7 @@ function renderSavings(){
  $("savingHistory").innerHTML="<h3>Wallet history</h3>"+
  (data.savingsHistory.length?data.savingsHistory.slice(0,15).map(x=>`
   <div class="listitem">
-   <span>${x.type} · ${x.date}</span>
+   <span>${escapeHTML(x.type)} · ${escapeHTML(x.date)}</span>
    <strong>${x.type==="Deposit"?"+":"-"}${money(x.amount)}</strong>
   </div>`).join(""):'<div class="empty">No wallet activity yet.</div>');
 }
@@ -733,6 +807,7 @@ $("clearData").onclick=()=>{
 };
 
 fillBudget();
+renderExchange();
 renderHabits();
 renderExpenses();
 renderSavings();
