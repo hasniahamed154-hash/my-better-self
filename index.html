@@ -38,7 +38,62 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:18px}
 @media(min-width:650px){.quick{grid-template-columns:repeat(4,1fr)}.wrap{padding-left:22px;padding-right:22px}.hero h1{font-size:38px}}
 </style>
 </head>
-<body>
+<body><script>
+const countryCurrencies = {
+  "United Arab Emirates": "AED",
+  "Sri Lanka": "LKR",
+  "India": "INR",
+  "Saudi Arabia": "SAR",
+  "Qatar": "QAR",
+  "Kuwait": "KWD",
+  "Oman": "OMR",
+  "Bahrain": "BHD",
+  "United Kingdom": "GBP",
+  "United States": "USD",
+  "Canada": "CAD",
+  "Australia": "AUD",
+  "Singapore": "SGD",
+  "Malaysia": "MYR",
+  "Indonesia": "IDR",
+  "Pakistan": "PKR",
+  "Bangladesh": "BDT",
+  "Nepal": "NPR",
+  "Philippines": "PHP",
+  "South Africa": "ZAR"
+};
+
+function setupCountryCurrency() {
+  const savedCountry = localStorage.getItem("myBetterSelfCountry") || "United Arab Emirates";
+  const savedCurrency = countryCurrencies[savedCountry] || "AED";
+
+  let country = document.getElementById("userCountry");
+  if (!country) {
+    country = document.createElement("select");
+    country.id = "userCountry";
+    country.style.cssText = "padding:10px;width:100%;margin:10px 0;border-radius:8px;";
+    country.innerHTML = Object.keys(countryCurrencies)
+      .map(c => `<option value="${c}">${c} (${countryCurrencies[c]})</option>`)
+      .join("");
+
+    const section = document.createElement("div");
+    section.innerHTML = "<h3>🌍 Country & Currency</h3>";
+    section.appendChild(country);
+    document.body.appendChild(section);
+  }
+
+  country.value = savedCountry;
+
+  country.addEventListener("change", function () {
+    localStorage.setItem("myBetterSelfCountry", this.value);
+    localStorage.setItem("myBetterSelfCurrency", countryCurrencies[this.value]);
+    alert("Currency changed to " + countryCurrencies[this.value] + ". Please check your budget displays.");
+  });
+
+  localStorage.setItem("myBetterSelfCurrency", savedCurrency);
+}
+
+document.addEventListener("DOMContentLoaded", setupCountryCurrency);
+</script>
 <header>
  <div class="top"><div class="brand">🌿 MY BETTER SELF</div><div class="date" id="todayDate"></div></div>
  <div class="hero"><div class="eyebrow">SMALL STEPS. BETTER DAYS.</div><h1>Your life, in balance.</h1><p>Health • Money • Confidence • Growth</p></div>
