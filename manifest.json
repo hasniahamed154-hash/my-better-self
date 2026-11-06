@@ -1,0 +1,17 @@
+{
+  "name": "My Better Self",
+  "short_name": "Better Self",
+  "description": "Personal health, habits, budget and savings tracker",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5f8f5",
+  "theme_color": "#176b4d",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
