@@ -1,6 +1,6 @@
 {
-  "name": "My Better Self",
-  "short_name": "Better Self",
+  "name": "EVOLV - Be a Better You",
+  "short_name": "EVOLV",
   "description": "Personal health, habits, budget and savings tracker",
   "start_url": "./",
   "display": "standalone",
