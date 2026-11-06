@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -8,106 +9,71 @@
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
-:root{--green:#176b4d;--green2:#e8f4ed;--ink:#17251e;--muted:#68766e;--bg:#f5f8f5;--line:#e1e9e3;--white:#fff;--red:#b44b4b;--gold:#a66a18}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+:root{--green:#176b4d;--green2:#e8f4ed;--ink:#17251e;--muted:#68766e;--bg:#f5f8f5;--line:#e1e9e3;--white:#fff;--red:#b44b4b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 header{background:linear-gradient(135deg,#14583f,#23815b);color:white;padding:22px 18px 25px;border-radius:0 0 24px 24px}
-.top{display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{font-size:20px;font-weight:800;letter-spacing:.2px}.date{font-size:12px;opacity:.85}
-.hero{margin-top:22px}.eyebrow{font-size:12px;opacity:.8}.hero h1{font-size:32px;line-height:1.1;margin:4px 0 6px}.hero p{margin:0;font-size:13px;opacity:.85}
-.wrap{max-width:850px;margin:auto;padding:0 14px 90px}.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:-13px}
-.metric{background:white;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 3px 12px #193b2810}.metric small{color:var(--muted);display:block}.metric strong{font-size:22px;display:block;margin-top:3px}.green{color:var(--green)}.red{color:var(--red)}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.brand{font-size:20px;font-weight:800}.date{font-size:12px;opacity:.85}
+.hero{margin-top:22px}.eyebrow{font-size:12px;opacity:.8}
+.hero h1{font-size:32px;line-height:1.1;margin:4px 0 6px}
+.hero p{margin:0;font-size:13px;opacity:.85}
+.wrap{max-width:850px;margin:auto;padding:0 14px 90px}
+.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:-13px}
+.metric{background:white;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 3px 12px #193b2810}
+.metric small{color:var(--muted);display:block}.metric strong{font-size:20px;display:block;margin-top:3px}
+.green{color:var(--green)}.red{color:var(--red)}
 nav{display:flex;gap:7px;overflow:auto;padding:16px 0 10px;position:sticky;top:0;background:var(--bg);z-index:3}
 nav button{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--muted);border-radius:999px;padding:9px 13px;font-weight:650}
 nav button.active{background:var(--green);color:white;border-color:var(--green)}
 .panel{display:none}.panel.active{display:block}
 .card{background:white;border:1px solid var(--line);border-radius:17px;padding:16px;margin:9px 0 13px}
 h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 8px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.muted{color:var(--muted);font-size:13px}
-.progress{height:9px;background:#e9efea;border-radius:20px;overflow:hidden;margin:10px 0}.progress span{height:100%;display:block;background:#2c9568;border-radius:20px;width:0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.muted{color:var(--muted);font-size:13px}
+.progress{height:9px;background:#e9efea;border-radius:20px;overflow:hidden;margin:10px 0}
+.progress span{height:100%;display:block;background:#2c9568;border-radius:20px;width:0}
 input,select{width:100%;padding:11px 12px;border:1px solid #d9e3db;border-radius:10px;background:white;color:var(--ink);font:inherit;min-width:0}
 label{display:block;font-size:12px;color:var(--muted);margin:9px 0 5px}
 button.primary{background:var(--green);color:white;border:0;border-radius:11px;padding:11px 15px;font-weight:700}
 button.secondary{background:var(--green2);color:var(--green);border:1px solid #d6e9dc;border-radius:11px;padding:10px 13px;font-weight:700}
 button.danger{background:#fff1f1;color:var(--red);border:1px solid #f0d7d7;border-radius:10px;padding:8px 10px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{min-width:0}
-.check{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #eff3ef}.check:last-child{border:0}.check input{width:19px;height:19px;margin:1px 0;accent-color:var(--green)}
-.listitem{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #eff3ef}.listitem:last-child{border:0}
-.amount{font-weight:750;white-space:nowrap}.pill{font-size:11px;padding:4px 8px;border-radius:99px;background:var(--green2);color:var(--green)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.field{min-width:0}
+.check{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #eff3ef}
+.check:last-child{border:0}.check input{width:19px;height:19px;margin:1px 0;accent-color:var(--green)}
+.listitem{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #eff3ef}
+.listitem:last-child{border:0}.amount{font-weight:750;white-space:nowrap}
+.pill{font-size:11px;padding:4px 8px;border-radius:99px;background:var(--green2);color:var(--green)}
 .notice{background:#fff8e9;border:1px solid #f0e1bf;color:#75521c;padding:11px 12px;border-radius:12px;font-size:12px}
 footer{text-align:center;color:var(--muted);font-size:11px;padding:18px}
 .empty{color:var(--muted);font-size:13px;padding:12px 0}
 @media(min-width:650px){.quick{grid-template-columns:repeat(4,1fr)}.wrap{padding-left:22px;padding-right:22px}.hero h1{font-size:38px}}
 </style>
 </head>
-<body><script>
-const countryCurrencies = {
-  "United Arab Emirates": "AED",
-  "Sri Lanka": "LKR",
-  "India": "INR",
-  "Saudi Arabia": "SAR",
-  "Qatar": "QAR",
-  "Kuwait": "KWD",
-  "Oman": "OMR",
-  "Bahrain": "BHD",
-  "United Kingdom": "GBP",
-  "United States": "USD",
-  "Canada": "CAD",
-  "Australia": "AUD",
-  "Singapore": "SGD",
-  "Malaysia": "MYR",
-  "Indonesia": "IDR",
-  "Pakistan": "PKR",
-  "Bangladesh": "BDT",
-  "Nepal": "NPR",
-  "Philippines": "PHP",
-  "South Africa": "ZAR"
-};
+<body>
 
-function setupCountryCurrency() {
-  const savedCountry = localStorage.getItem("myBetterSelfCountry") || "United Arab Emirates";
-  const savedCurrency = countryCurrencies[savedCountry] || "AED";
-
-  let country = document.getElementById("userCountry");
-  if (!country) {
-    country = document.createElement("select");
-    country.id = "userCountry";
-    country.style.cssText = "padding:10px;width:100%;margin:10px 0;border-radius:8px;";
-    country.innerHTML = Object.keys(countryCurrencies)
-      .map(c => `<option value="${c}">${c} (${countryCurrencies[c]})</option>`)
-      .join("");
-
-    const section = document.createElement("div");
-    section.innerHTML = "<h3>🌍 Country & Currency</h3>";
-    section.appendChild(country);
-    document.body.appendChild(section);
-  }
-
-  country.value = savedCountry;
-
-  country.addEventListener("change", function () {
-    localStorage.setItem("myBetterSelfCountry", this.value);
-    localStorage.setItem("myBetterSelfCurrency", countryCurrencies[this.value]);
-    alert("Currency changed to " + countryCurrencies[this.value] + ". Please check your budget displays.");
-  });
-
-  localStorage.setItem("myBetterSelfCurrency", savedCurrency);
-}
-
-document.addEventListener("DOMContentLoaded", setupCountryCurrency);
-</script>
 <header>
  <div class="top"><div class="brand">🌿 MY BETTER SELF</div><div class="date" id="todayDate"></div></div>
  <div class="hero"><div class="eyebrow">SMALL STEPS. BETTER DAYS.</div><h1>Your life, in balance.</h1><p>Health • Money • Confidence • Growth</p></div>
 </header>
+
 <main class="wrap">
  <section class="quick">
-  <div class="metric"><small>Monthly salary</small><strong id="salaryMetric">AED 1,200</strong></div>
-  <div class="metric"><small>Available after plan</small><strong class="green" id="leftMetric">AED 250</strong></div>
-  <div class="metric"><small>Spent this month</small><strong id="spentMetric">AED 0</strong></div>
+  <div class="metric"><small>Monthly salary</small><strong id="salaryMetric">--</strong></div>
+  <div class="metric"><small>Available after plan</small><strong class="green" id="leftMetric">--</strong></div>
+  <div class="metric"><small>Spent this month</small><strong id="spentMetric">--</strong></div>
   <div class="metric"><small>Habits today</small><strong id="habitMetric">0 / 19</strong></div>
  </section>
+
  <nav>
-  <button class="active" data-tab="home">Today</button><button data-tab="money">My money</button><button data-tab="health">Health & beauty</button><button data-tab="food">Food plan</button><button data-tab="settings">Settings</button>
+  <button class="active" data-tab="home">Today</button>
+  <button data-tab="money">My money</button>
+  <button data-tab="health">Health & beauty</button>
+  <button data-tab="food">Food plan</button>
+  <button data-tab="settings">Settings</button>
  </nav>
+
  <section class="panel active" id="home">
   <div class="card">
    <div class="row"><h2>Today's habits</h2><span class="pill" id="habitPercent">0% done</span></div>
@@ -121,88 +87,247 @@ document.addEventListener("DOMContentLoaded", setupCountryCurrency);
    <div class="listitem"><span>💧 1:00 PM · Lunch, water & posture check</span><span class="pill">Work</span></div>
    <div class="listitem"><span>🌙 9:30 PM · Shower, exercise & night skincare</span><span class="pill">Night</span></div>
    <div class="listitem"><span>🧾 10:00 PM · Record today's spending</span><span class="pill">Money</span></div>
-   <p class="muted">Reminders are shown here. Browser notifications require permission and the app to be open; see Settings.</p>
+   <p class="muted">Browser notifications require permission and the app to be open.</p>
   </div>
   <div class="card">
    <h2>Weekly intention</h2>
    <p class="muted">Focus on consistency, not perfection. Healthy skin is not about becoming fair; it is about caring for your skin.</p>
-   <label for="weeklyNote">My note for this week</label><input id="weeklyNote" placeholder="Example: Walk 3 times and save AED 50">
+   <label for="weeklyNote">My note for this week</label>
+   <input id="weeklyNote" placeholder="Example: Walk 3 times and save money">
    <button class="secondary" id="saveNote" style="margin-top:9px">Save note</button>
   </div>
  </section>
+
  <section class="panel" id="money">
   <div class="card">
    <h2>Monthly salary plan</h2>
+   <p class="muted">All amounts are entered in your selected currency.</p>
    <div class="grid2">
-    <div class="field"><label>Salary (AED)</label><input type="number" id="salary" min="0"></div>
-    <div class="field"><label>Family remittance (AED)</label><input type="number" id="family" min="0"></div>
-    <div class="field"><label>Food budget (AED)</label><input type="number" id="foodBudget" min="0"></div>
-    <div class="field"><label>Wi-Fi (AED)</label><input type="number" id="wifi" min="0"></div>
-    <div class="field"><label>Advance repayment (AED)</label><input type="number" id="advance" min="0"></div>
-    <div class="field"><label>Other fixed costs (AED)</label><input type="number" id="fixed" min="0"></div>
+    <div class="field"><label>Salary (<span class="currency-code"></span>)</label><input type="number" id="salary" min="0"></div>
+    <div class="field"><label>Family remittance (<span class="currency-code"></span>)</label><input type="number" id="family" min="0"></div>
+    <div class="field"><label>Food budget (<span class="currency-code"></span>)</label><input type="number" id="foodBudget" min="0"></div>
+    <div class="field"><label>Wi-Fi (<span class="currency-code"></span>)</label><input type="number" id="wifi" min="0"></div>
+    <div class="field"><label>Advance repayment (<span class="currency-code"></span>)</label><input type="number" id="advance" min="0"></div>
+    <div class="field"><label>Other fixed costs (<span class="currency-code"></span>)</label><input type="number" id="fixed" min="0"></div>
    </div>
    <button class="primary" id="saveBudget" style="margin-top:13px">Save salary plan</button>
    <div class="progress"><span id="budgetBar"></span></div>
    <div id="budgetSummary" class="muted"></div>
   </div>
+
   <div class="card">
    <h2>Add an expense</h2>
    <div class="grid2">
-    <div class="field"><label>Amount (AED)</label><input id="expenseAmount" type="number" min="0.01" step="0.01" placeholder="e.g. 8"></div>
+    <div class="field"><label>Amount (<span class="currency-code"></span>)</label><input id="expenseAmount" type="number" min="0.01" step="0.01" placeholder="e.g. 8"></div>
     <div class="field"><label>Category</label><select id="expenseCategory"><option>Food</option><option>Transport</option><option>Personal care</option><option>Clothes</option><option>Phone / Internet</option><option>Family</option><option>Other</option></select></div>
    </div>
    <label>Description</label><input id="expenseNote" placeholder="What did you buy?">
    <button class="primary" id="addExpense" style="margin-top:12px">Add expense</button>
   </div>
+
   <div class="card">
    <div class="row"><h2>Expense history</h2><span class="pill" id="expenseCount">0 records</span></div>
    <div id="expenseList" class="empty">No expenses recorded yet.</div>
   </div>
+
   <div class="card">
    <h2>Savings goal</h2>
    <label>What are you saving for?</label><input id="goalName" placeholder="Emergency fund / course fees">
-   <div class="grid2"><div><label>Target (AED)</label><input id="goalTarget" type="number" min="0"></div><div><label>Saved so far (AED)</label><input id="goalSaved" type="number" min="0"></div></div>
+   <div class="grid2">
+    <div><label>Target (<span class="currency-code"></span>)</label><input id="goalTarget" type="number" min="0"></div>
+    <div><label>Saved so far (<span class="currency-code"></span>)</label><input id="goalSaved" type="number" min="0"></div>
+   </div>
    <button class="secondary" id="saveGoal" style="margin-top:12px">Update savings goal</button>
    <div id="goalSummary" class="muted" style="margin-top:10px"></div>
   </div>
  </section>
+
  <section class="panel" id="health">
-  <div class="card"><h2>Skin & grooming</h2><p class="muted">Keep it simple. Don't chase skin whitening; aim for healthy, comfortable skin.</p><div id="skinList"></div></div>
+  <div class="card"><h2>Skin & grooming</h2><p class="muted">Keep it simple. Aim for healthy, comfortable skin.</p><div id="skinList"></div></div>
   <div class="card"><h2>Home fitness</h2><p class="muted">Start gently. Rest if you feel pain or unusual discomfort.</p><div id="fitnessList"></div></div>
  </section>
+
  <section class="panel" id="food">
   <div class="card"><h2>Affordable daily food plan</h2>
    <div class="listitem"><span><b>Breakfast</b><br><span class="muted">Oats with milk and banana, or eggs and bread</span></span></div>
    <div class="listitem"><span><b>Lunch</b><br><span class="muted">Rice, dhal, vegetables and egg/fish/chicken when available</span></span></div>
    <div class="listitem"><span><b>Snack</b><br><span class="muted">Fruit or a small handful of peanuts</span></span></div>
    <div class="listitem"><span><b>Dinner</b><br><span class="muted">Rice or chapati with dhal, vegetables or eggs</span></span></div>
-   <div class="notice" style="margin-top:12px">Work with your existing food allowance first. No need for protein powders, expensive supplements or special beauty foods.</div>
+   <div class="notice" style="margin-top:12px">Work with your existing food allowance first. No need for expensive supplements.</div>
   </div>
   <div class="card"><h2>Simple shopping list</h2><div id="shopList"></div></div>
  </section>
+
  <section class="panel" id="settings">
-  <div class="card"><h2>Reminder settings</h2>
+  <div class="card">
+   <h2>🌍 Country & Currency</h2>
+   <p class="muted">Choose your country. Your financial amounts will be displayed in its currency.</p>
+   <label for="countrySelect">Your country</label>
+   <select id="countrySelect"></select>
+   <p id="currencyStatus" class="muted">Loading exchange rates...</p>
+   <div class="notice">Exchange rates are approximate reference rates. Your bank or money transfer provider may use different rates and fees.</div>
+  </div>
+  <div class="card">
+   <h2>Reminder settings</h2>
    <p class="muted">Allow notifications to receive reminders while this app is open. Your phone/browser may limit background reminders.</p>
    <button class="primary" id="enableNotifications">Enable notifications</button>
    <p id="notificationStatus" class="muted"></p>
-   <div class="notice">For reliable reminders when the app is closed, a native Android app or a push-notification service is needed. This free starter version does not promise alarms while closed.</div>
+   <div class="notice">For reliable reminders when the app is closed, a push-notification service is needed.</div>
   </div>
-  <div class="card"><h2>Your privacy</h2><p class="muted">Your entries are saved in this browser on this device. Clearing browser data may erase them. This version has no account or cloud backup.</p><button class="danger" id="exportData">Export my data</button> <button class="danger" id="clearData">Delete all app data</button></div>
-  <div class="card"><h2>App information</h2><p class="muted">My Better Self · Version 1.0 · Free personal tracker.</p></div>
+  <div class="card">
+   <h2>Your privacy</h2>
+   <p class="muted">Your entries are saved in this browser on this device. Clearing browser data may erase them. This version has no account or cloud backup.</p>
+   <button class="danger" id="exportData">Export my data</button>
+   <button class="danger" id="clearData">Delete all app data</button>
+  </div>
+  <div class="card"><h2>App information</h2><p class="muted">My Better Self · Version 2.0 · Free personal tracker.</p></div>
  </section>
+
  <footer>Created & Developed by <strong>Faizal Hasni Ahamed</strong> · 2026</footer>
 </main>
+
 <script>
 const $=id=>document.getElementById(id);
-const defaultData={
- budget:{salary:1200,family:700,food:230,wifi:20,advance:0,fixed:0},
- expenses:[],goal:{name:"Emergency savings",target:500,saved:0},habits:{},note:""
+
+const countryCurrencies={
+"United Arab Emirates":"AED","Sri Lanka":"LKR","India":"INR",
+"Saudi Arabia":"SAR","Qatar":"QAR","Kuwait":"KWD","Oman":"OMR",
+"Bahrain":"BHD","United Kingdom":"GBP","United States":"USD",
+"Canada":"CAD","Australia":"AUD","Singapore":"SGD","Malaysia":"MYR",
+"Indonesia":"IDR","Pakistan":"PKR","Bangladesh":"BDT","Nepal":"NPR",
+"Philippines":"PHP","South Africa":"ZAR"
 };
+
+const oldCountry=localStorage.getItem("myBetterSelfCountry")||"United Arab Emirates";
+let selectedCountry=countryCurrencies[oldCountry]?oldCountry:"United Arab Emirates";
+let selectedCurrency=countryCurrencies[selectedCountry];
+
+const existingRaw=localStorage.getItem("mbs-data");
+const defaultData={
+ budget:{salary:0,family:0,food:0,wifi:0,advance:0,fixed:0},
+ expenses:[],
+ goal:{name:"Emergency savings",target:0,saved:0},
+ habits:{},note:"",currencyBase:selectedCurrency
+};
+
 let data;
-try{data={...defaultData,...JSON.parse(localStorage.getItem("mbs-data")||"{}")};data.budget={...defaultData.budget,...data.budget};data.goal={...defaultData.goal,...data.goal};}catch(e){data=structuredClone(defaultData)}
+try{
+ if(existingRaw){
+  data={...defaultData,...JSON.parse(existingRaw)};
+  data.budget={...defaultData.budget,...data.budget};
+  data.goal={...defaultData.goal,...data.goal};
+  data.expenses=data.expenses||[];
+  data.habits=data.habits||{};
+  // Older app records were stored in AED.
+  if(!data.currencyBase)data.currencyBase="AED";
+ }else{
+  data=JSON.parse(JSON.stringify(defaultData));
+ }
+}catch(e){
+ data=JSON.parse(JSON.stringify(defaultData));
+}
+
+let exchangeRates={};
+let currentRate=1;
+let rateReady=false;
+let rateSource="";
+
 const save=()=>localStorage.setItem("mbs-data",JSON.stringify(data));
 const today=()=>new Date().toISOString().slice(0,10);
-$("todayDate").textContent=new Date().toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short",year:"numeric"});
+
+$("todayDate").textContent=new Date().toLocaleDateString(undefined,{
+ weekday:"short",day:"numeric",month:"short",year:"numeric"
+});
+
+function fmt(n){
+ if(!rateReady)return "Rate unavailable";
+ try{
+  return new Intl.NumberFormat(undefined,{
+   style:"currency",currency:selectedCurrency,
+   maximumFractionDigits:2
+  }).format((Number(n)||0)*currentRate);
+ }catch(e){
+  return selectedCurrency+" "+((Number(n)||0)*currentRate).toFixed(2);
+ }
+}
+
+function toBase(amount){
+ if(!rateReady)return null;
+ return (Number(amount)||0)/currentRate;
+}
+
+function updateCurrencyLabels(){
+ document.querySelectorAll(".currency-code").forEach(el=>{
+  el.textContent=selectedCurrency;
+ });
+}
+
+async function loadExchangeRates(){
+ selectedCountry=$("countrySelect").value;
+ selectedCurrency=countryCurrencies[selectedCountry];
+ localStorage.setItem("myBetterSelfCountry",selectedCountry);
+ localStorage.setItem("myBetterSelfCurrency",selectedCurrency);
+ updateCurrencyLabels();
+
+ if(selectedCurrency===data.currencyBase){
+  currentRate=1;
+  rateReady=true;
+  rateSource="Original currency";
+  refreshMoneyViews();
+  return;
+ }
+
+ const cacheKey="mbs-rates-"+data.currencyBase;
+ let cached=null;
+ try{cached=JSON.parse(localStorage.getItem(cacheKey)||"null")}catch(e){}
+
+ if(cached&&cached.rates&&Date.now()-cached.time<86400000){
+  exchangeRates=cached.rates;
+  currentRate=exchangeRates[selectedCurrency];
+  rateReady=Number.isFinite(currentRate);
+  rateSource="Saved exchange rate";
+  refreshMoneyViews();
+ }
+
+ $("currencyStatus").textContent="Checking latest exchange rates...";
+
+ try{
+  const response=await fetch("https://open.er-api.com/v6/latest/"+encodeURIComponent(data.currencyBase));
+  if(!response.ok)throw new Error("Rate service unavailable");
+  const result=await response.json();
+  if(result.result!=="success"||!result.rates)throw new Error("Invalid rate response");
+
+  exchangeRates=result.rates;
+  localStorage.setItem(cacheKey,JSON.stringify({
+   rates:exchangeRates,time:Date.now()
+  }));
+
+  currentRate=exchangeRates[selectedCurrency];
+  rateReady=Number.isFinite(currentRate)&&currentRate>0;
+  rateSource="Latest available reference rate";
+ }catch(e){
+  if(!rateReady){
+   $("currencyStatus").textContent="Exchange rate unavailable. Connect to the internet and try again.";
+   refreshMoneyViews();
+   return;
+  }
+  rateSource="Previously saved exchange rate (offline)";
+ }
+
+ $("currencyStatus").textContent=rateReady
+  ?"1 "+data.currencyBase+" = "+currentRate.toFixed(4)+" "+selectedCurrency+" · "+rateSource
+  :"Exchange rate unavailable. Please try again.";
+
+ refreshMoneyViews();
+}
+
+function refreshMoneyViews(){
+ fillBudget();
+ renderExpenses();
+ renderGoal();
+ updateDashboard();
+}
+
 const habitGroups=[
  ["Morning routine",["Brush teeth and clean tongue","Wash face and moisturise","Apply sunscreen","Drink water","Eat breakfast"]],
  ["Healthy lifestyle",["Eat fruit","Eat vegetables and protein","Drink water regularly","Avoid excess sugary drinks"]],
@@ -210,43 +335,227 @@ const habitGroups=[
  ["Beauty & hygiene",["Shower and use deodorant","Keep hair and nails clean","Wear clean clothes"]],
  ["Night routine",["Wash face gently","Night moisturiser / Differin as directed","Brush teeth","Record today's expenses","Aim for sufficient sleep"]]
 ];
+
 function renderHabits(){
- const key=today();const done=data.habits[key]||[];
- $("habitList").innerHTML=habitGroups.map(([g,items])=>`<h3 style="margin-top:12px">${g}</h3>`+items.map(x=>`<label class="check"><input type="checkbox" data-habit="${encodeURIComponent(x)}" ${done.includes(x)?"checked":""}><span>${x}</span></label>`).join("")).join("");
- $("habitList").querySelectorAll("[data-habit]").forEach(el=>el.addEventListener("change",()=>{const v=decodeURIComponent(el.dataset.habit);let a=data.habits[key]||[];data.habits[key]=el.checked?[...new Set([...a,v])]:a.filter(x=>x!==v);save();updateDashboard()}));
+ const key=today();
+ const done=data.habits[key]||[];
+ $("habitList").innerHTML=habitGroups.map(([g,items])=>
+  `<h3 style="margin-top:12px">${g}</h3>`+
+  items.map(x=>`<label class="check"><input type="checkbox" data-habit="${encodeURIComponent(x)}" ${done.includes(x)?"checked":""}><span>${x}</span></label>`).join("")
+ ).join("");
+
+ $("habitList").querySelectorAll("[data-habit]").forEach(el=>{
+  el.addEventListener("change",()=>{
+   const v=decodeURIComponent(el.dataset.habit);
+   let a=data.habits[key]||[];
+   data.habits[key]=el.checked?[...new Set([...a,v])]:a.filter(x=>x!==v);
+   save();updateDashboard();
+  });
+ });
  updateDashboard();
 }
+
 function updateDashboard(){
- const done=data.habits[today()]||[];const total=habitGroups.reduce((n,g)=>n+g[1].length,0);const p=Math.round(done.length/total*100);
- $("habitMetric").textContent=`${done.length} / ${total}`;$("habitPercent").textContent=p+"% done";$("habitBar").style.width=p+"%";
- const b=data.budget, planned=+b.family + +b.food + +b.wifi + +b.advance + +b.fixed;
- const spentMonth=data.expenses.filter(e=>e.month===today().slice(0,7)).reduce((s,e)=>s+e.amount,0);
- $("salaryMetric").textContent=fmt(b.salary);$("leftMetric").textContent=fmt(+b.salary-planned-spentMonth);$("spentMetric").textContent=fmt(spentMonth);
+ const done=data.habits[today()]||[];
+ const total=habitGroups.reduce((n,g)=>n+g[1].length,0);
+ const p=Math.round(done.length/total*100);
+ $("habitMetric").textContent=`${done.length} / ${total}`;
+ $("habitPercent").textContent=p+"% done";
+ $("habitBar").style.width=p+"%";
+
+ const b=data.budget;
+ const planned=+b.family + +b.food + +b.wifi + +b.advance + +b.fixed;
+ const spentMonth=data.expenses.filter(e=>e.month===today().slice(0,7))
+  .reduce((s,e)=>s+e.amount,0);
+
+ $("salaryMetric").textContent=fmt(b.salary);
+ $("leftMetric").textContent=fmt(+b.salary-planned-spentMonth);
+ $("spentMetric").textContent=fmt(spentMonth);
  $("budgetBar").style.width=Math.min(100,planned/(+b.salary||1)*100)+"%";
- $("budgetSummary").innerHTML=`Planned commitments: <b>${fmt(planned)}</b><br>Estimated remaining before variable expenses: <b>${fmt(+b.salary-planned)}</b><br>Variable expenses this month: <b>${fmt(spentMonth)}</b><br><b>Estimated balance after recorded expenses: ${fmt(+b.salary-planned-spentMonth)}</b>`;
+
+ $("budgetSummary").innerHTML=
+ `Planned commitments: <b>${fmt(planned)}</b><br>
+ Estimated remaining before variable expenses: <b>${fmt(+b.salary-planned)}</b><br>
+ Variable expenses this month: <b>${fmt(spentMonth)}</b><br>
+ <b>Estimated balance after recorded expenses: ${fmt(+b.salary-planned-spentMonth)}</b>`;
 }
-function fmt(n){return "AED "+(Number(n)||0).toFixed(2).replace(/\.00$/,"")}
-function fillBudget(){for(const [k,id] of Object.entries({salary:"salary",family:"family",food:"foodBudget",wifi:"wifi",advance:"advance",fixed:"fixed"}))$(id).value=data.budget[k]}
-$("saveBudget").onclick=()=>{for(const [k,id] of Object.entries({salary:"salary",family:"family",food:"foodBudget",wifi:"wifi",advance:"advance",fixed:"fixed"}))data.budget[k]=Math.max(0,Number($(id).value)||0);save();updateDashboard();alert("Salary plan saved on this device.")};
-$("addExpense").onclick=()=>{const amount=Number($("expenseAmount").value);if(!(amount>0)){alert("Enter an amount greater than zero.");return}data.expenses.unshift({id:Date.now(),amount,category:$("expenseCategory").value,note:$("expenseNote").value.trim(),date:today(),month:today().slice(0,7)});$("expenseAmount").value="";$("expenseNote").value="";save();renderExpenses();updateDashboard()};
-function renderExpenses(){$("expenseCount").textContent=data.expenses.length+" records";$("expenseList").innerHTML=data.expenses.length?data.expenses.map(e=>`<div class="listitem"><div><b>${e.category}</b><div class="muted">${e.note||"No description"} · ${e.date}</div></div><div class="row"><span class="amount">${fmt(e.amount)}</span><button class="danger" data-del="${e.id}">×</button></div></div>`).join(""):'<div class="empty">No expenses recorded yet.</div>';$("expenseList").querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{data.expenses=data.expenses.filter(e=>e.id!==Number(b.dataset.del));save();renderExpenses();updateDashboard()})}
-$("saveGoal").onclick=()=>{data.goal={name:$("goalName").value.trim()||"My savings",target:Math.max(0,Number($("goalTarget").value)||0),saved:Math.max(0,Number($("goalSaved").value)||0)};save();renderGoal()};
-function renderGoal(){$("goalName").value=data.goal.name;$("goalTarget").value=data.goal.target;$("goalSaved").value=data.goal.saved;const p=data.goal.target?Math.min(100,data.goal.saved/data.goal.target*100):0;$("goalSummary").innerHTML=`${fmt(data.goal.saved)} saved of ${fmt(data.goal.target)} · ${Math.round(p)}% complete<div class="progress"><span style="width:${p}%"></span></div>`}
-function makeCheckList(id,items){$(id).innerHTML=items.map(x=>`<label class="check"><input type="checkbox"><span>${x}</span></label>`).join("")}
-makeCheckList("skinList",["Gentle face wash","Moisturiser","Sunscreen in the morning","Night routine as directed","Clean pillowcase regularly"]);
-makeCheckList("fitnessList",["10–15 minute walk","Wall or knee push-ups","Bodyweight squats","Gentle stretching"]);
-makeCheckList("shopList",["Eggs","Bananas","Oats","Dhal / chickpeas","Seasonal vegetables","Peanuts"]);
-$("resetHabits").onclick=()=>{if(confirm("Reset today's habit checklist?")){delete data.habits[today()];save();renderHabits()}};
-$("saveNote").onclick=()=>{data.note=$("weeklyNote").value;save();alert("Note saved.")};$("weeklyNote").value=data.note||"";
-document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");$(b.dataset.tab).classList.add("active")});
-$("enableNotifications").onclick=async()=>{if(!("Notification"in window)){$("notificationStatus").textContent="Notifications are not supported in this browser.";return}const p=await Notification.requestPermission();$("notificationStatus").textContent=p==="granted"?"Notifications enabled while the app is open.":"Notification permission not granted.";};
-const reminderTimes=[{h:6,m:30,msg:"Morning routine: skincare, water and breakfast."},{h:13,m:0,msg:"Lunch, drink water and check your posture."},{h:21,m:30,msg:"Evening routine: shower, movement and skincare."},{h:22,m:0,msg:"Record today's expenses and prepare for tomorrow."}];
+
+function fillBudget(){
+ const fields={salary:"salary",family:"family",food:"foodBudget",wifi:"wifi",advance:"advance",fixed:"fixed"};
+ for(const [k,id] of Object.entries(fields)){
+  $(id).value=rateReady?(data.budget[k]*currentRate).toFixed(2):"";
+ }
+}
+
+$("saveBudget").onclick=()=>{
+ if(!rateReady){alert("Exchange rate is not ready. Connect to the internet first.");return}
+ const fields={salary:"salary",family:"family",food:"foodBudget",wifi:"wifi",advance:"advance",fixed:"fixed"};
+ for(const [k,id] of Object.entries(fields)){
+  const converted=toBase($(id).value);
+  data.budget[k]=Math.max(0,converted||0);
+ }
+ save();updateDashboard();alert("Salary plan saved on this device.");
+};
+
+$("addExpense").onclick=()=>{
+ if(!rateReady){alert("Exchange rate is not ready. Connect to the internet first.");return}
+ const amount=Number($("expenseAmount").value);
+ if(!(amount>0)){alert("Enter an amount greater than zero.");return}
+ const storedAmount=toBase(amount);
+ data.expenses.unshift({
+  id:Date.now(),amount:storedAmount,
+  category:$("expenseCategory").value,
+  note:$("expenseNote").value.trim(),
+  date:today(),month:today().slice(0,7)
+ });
+ $("expenseAmount").value="";
+ $("expenseNote").value="";
+ save();renderExpenses();updateDashboard();
+};
+
+function renderExpenses(){
+ $("expenseCount").textContent=data.expenses.length+" records";
+ $("expenseList").innerHTML=data.expenses.length
+ ?data.expenses.map(e=>`
+  <div class="listitem">
+   <div><b>${e.category}</b><div class="muted">${e.note||"No description"} · ${e.date}</div></div>
+   <div class="row"><span class="amount">${fmt(e.amount)}</span><button class="danger" data-del="${e.id}">×</button></div>
+  </div>`).join("")
+ :'<div class="empty">No expenses recorded yet.</div>';
+
+ $("expenseList").querySelectorAll("[data-del]").forEach(b=>{
+  b.onclick=()=>{
+   data.expenses=data.expenses.filter(e=>e.id!==Number(b.dataset.del));
+   save();renderExpenses();updateDashboard();
+  };
+ });
+}
+
+$("saveGoal").onclick=()=>{
+ if(!rateReady){alert("Exchange rate is not ready. Connect to the internet first.");return}
+ data.goal={
+  name:$("goalName").value.trim()||"My savings",
+  target:Math.max(0,toBase($("goalTarget").value)||0),
+  saved:Math.max(0,toBase($("goalSaved").value)||0)
+ };
+ save();renderGoal();
+};
+
+function renderGoal(){
+ $("goalName").value=data.goal.name;
+ $("goalTarget").value=rateReady?(data.goal.target*currentRate).toFixed(2):"";
+ $("goalSaved").value=rateReady?(data.goal.saved*currentRate).toFixed(2):"";
+ const p=data.goal.target?Math.min(100,data.goal.saved/data.goal.target*100):0;
+ $("goalSummary").innerHTML=
+ `${fmt(data.goal.saved)} saved of ${fmt(data.goal.target)} · ${Math.round(p)}% complete
+ <div class="progress"><span style="width:${p}%"></span></div>`;
+}
+
+function makeCheckList(id,items){
+ $(id).innerHTML=items.map(x=>`<label class="check"><input type="checkbox"><span>${x}</span></label>`).join("");
+}
+
+makeCheckList("skinList",[
+ "Gentle face wash","Moisturiser","Sunscreen in the morning",
+ "Night routine as directed","Clean pillowcase regularly"
+]);
+makeCheckList("fitnessList",[
+ "10–15 minute walk","Wall or knee push-ups",
+ "Bodyweight squats","Gentle stretching"
+]);
+makeCheckList("shopList",[
+ "Eggs","Bananas","Oats","Dhal / chickpeas",
+ "Seasonal vegetables","Peanuts"
+]);
+
+$("resetHabits").onclick=()=>{
+ if(confirm("Reset today's habit checklist?")){
+  delete data.habits[today()];save();renderHabits();
+ }
+};
+
+$("saveNote").onclick=()=>{
+ data.note=$("weeklyNote").value;save();alert("Note saved.");
+};
+$("weeklyNote").value=data.note||"";
+
+document.querySelectorAll("nav button").forEach(b=>{
+ b.onclick=()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  $(b.dataset.tab).classList.add("active");
+ };
+});
+
+Object.keys(countryCurrencies).forEach(country=>{
+ const option=document.createElement("option");
+ option.value=country;
+ option.textContent=country+" ("+countryCurrencies[country]+")";
+ $("countrySelect").appendChild(option);
+});
+$("countrySelect").value=selectedCountry;
+$("countrySelect").addEventListener("change",loadExchangeRates);
+
+$("enableNotifications").onclick=async()=>{
+ if(!("Notification"in window)){
+  $("notificationStatus").textContent="Notifications are not supported in this browser.";
+  return;
+ }
+ const p=await Notification.requestPermission();
+ $("notificationStatus").textContent=p==="granted"
+ ?"Notifications enabled while the app is open."
+ :"Notification permission not granted.";
+};
+
+const reminderTimes=[
+ {h:6,m:30,msg:"Morning routine: skincare, water and breakfast."},
+ {h:13,m:0,msg:"Lunch, drink water and check your posture."},
+ {h:21,m:30,msg:"Evening routine: shower, movement and skincare."},
+ {h:22,m:0,msg:"Record today's expenses and prepare for tomorrow."}
+];
 let lastNotice="";
-function checkReminders(){if(!("Notification"in window)||Notification.permission!=="granted")return;const d=new Date();for(const r of reminderTimes){if(d.getHours()===r.h&&d.getMinutes()===r.m){const k=today()+r.h+":"+r.m;if(k!==lastNotice){new Notification("My Better Self",{body:r.msg,icon:"icon.svg"});lastNotice=k}}}}
+function checkReminders(){
+ if(!("Notification"in window)||Notification.permission!=="granted")return;
+ const d=new Date();
+ for(const r of reminderTimes){
+  if(d.getHours()===r.h&&d.getMinutes()===r.m){
+   const k=today()+r.h+":"+r.m;
+   if(k!==lastNotice){
+    new Notification("My Better Self",{body:r.msg,icon:"icon.svg"});
+    lastNotice=k;
+   }
+  }
+ }
+}
 setInterval(checkReminders,20000);
-$("exportData").onclick=()=>{const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="my-better-self-data.json";a.click();URL.revokeObjectURL(a.href)};
-$("clearData").onclick=()=>{if(confirm("Permanently delete all My Better Self data from this browser?")){localStorage.removeItem("mbs-data");location.reload()}};
-fillBudget();renderHabits();renderExpenses();renderGoal();updateDashboard();
-if("serviceWorker"in navigator&&location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
+
+$("exportData").onclick=()=>{
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="my-better-self-data.json";
+ a.click();
+ URL.revokeObjectURL(a.href);
+};
+
+$("clearData").onclick=()=>{
+ if(confirm("Permanently delete all My Better Self data from this browser?")){
+  localStorage.removeItem("mbs-data");
+  localStorage.removeItem("myBetterSelfCountry");
+  localStorage.removeItem("myBetterSelfCurrency");
+  location.reload();
+ }
+};
+
+renderHabits();
+$("weeklyNote").value=data.note||"";
+save();
+loadExchangeRates();
+
+if("serviceWorker"in navigator&&location.protocol.startsWith("http")){
+ navigator.serviceWorker.register("sw.js").catch(()=>{});
+}
 </script>
-</body></html>
+</body>
+</html>
