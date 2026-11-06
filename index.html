@@ -3,410 +3,510 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#176b4d">
 <title>EVOLV - Be a Better You</title>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <style>
-:root{--green:#176b4d;--green2:#e8f4ed;--ink:#17251e;--muted:#68766e;--bg:#f5f8f5;--line:#e1e9e3;--white:#fff;--red:#b44b4b}
+:root{
+ --g:#176b4d;--g2:#e8f4ed;--ink:#17251e;
+ --muted:#68766e;--bg:#f5f8f5;--line:#e1e9e3;
+ --red:#b44b4b;--white:#fff;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-header{background:linear-gradient(135deg,#14583f,#23815b);color:white;padding:22px 18px 25px;border-radius:0 0 24px 24px}
-.top{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.brand{font-size:20px;font-weight:800}.date{font-size:12px;opacity:.85}
-.hero{margin-top:22px}.eyebrow{font-size:12px;opacity:.8}
-.hero h1{font-size:32px;line-height:1.1;margin:4px 0 6px}
-.hero p{margin:0;font-size:13px;opacity:.85}
-.wrap{max-width:850px;margin:auto;padding:0 14px 90px}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:15px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:linear-gradient(135deg,#14583f,#23815b);
+color:white;padding:22px 18px 26px;border-radius:0 0 24px 24px}
+.top,.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.brand{font-size:21px;font-weight:850}
+.date,.muted{font-size:12px;color:var(--muted)}
+.date{color:#ffffffc9}
+.hero{margin-top:22px}
+.hero h1{font-size:34px;line-height:1.1;margin:5px 0}
+.hero p{font-size:13px;opacity:.85}
+.wrap{max-width:900px;margin:auto;padding:0 14px 70px}
 .quick{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:-13px}
-.metric{background:white;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:0 3px 12px #193b2810}
-.metric small{color:var(--muted);display:block}.metric strong{font-size:20px;display:block;margin-top:3px}
-.green{color:var(--green)}.red{color:var(--red)}
-nav{display:flex;gap:7px;overflow:auto;padding:16px 0 10px;position:sticky;top:0;background:var(--bg);z-index:3}
-nav button{white-space:nowrap;border:1px solid var(--line);background:white;color:var(--muted);border-radius:999px;padding:9px 13px;font-weight:650}
-nav button.active{background:var(--green);color:white;border-color:var(--green)}
+.metric,.card{background:white;border:1px solid var(--line);
+border-radius:16px;padding:15px;box-shadow:0 3px 12px #193b2808}
+.metric small{display:block;color:var(--muted)}
+.metric strong{display:block;font-size:20px;margin-top:4px}
+.green{color:var(--g)}.red{color:var(--red)}
+nav{display:flex;gap:7px;overflow-x:auto;padding:16px 0 10px;
+position:sticky;top:0;background:var(--bg);z-index:5}
+nav button{white-space:nowrap;border:1px solid var(--line);
+background:white;color:var(--muted);border-radius:999px;
+padding:9px 13px;font-weight:700}
+nav button.active{background:var(--g);color:white;border-color:var(--g)}
 .panel{display:none}.panel.active{display:block}
-.card{background:white;border:1px solid var(--line);border-radius:17px;padding:16px;margin:9px 0 13px}
-h2{font-size:18px;margin:0 0 12px}h3{font-size:15px;margin:0 0 8px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.muted{color:var(--muted);font-size:13px}
+.card{margin:10px 0 13px}
+h2{font-size:18px;margin:0 0 12px}
+h3{font-size:14px;margin:14px 0 6px}
+label{display:block;font-size:12px;color:var(--muted);margin:9px 0 5px}
+input,select{width:100%;padding:11px 12px;border:1px solid #d9e3db;
+border-radius:10px;background:white;color:var(--ink);font:inherit}
+button{cursor:pointer}
+.primary,.secondary,.danger{border-radius:10px;padding:10px 14px;font-weight:700}
+.primary{background:var(--g);color:white;border:0}
+.secondary{background:var(--g2);color:var(--g);border:1px solid #d6e9dc}
+.danger{background:#fff1f1;color:var(--red);border:1px solid #f0d7d7}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .progress{height:9px;background:#e9efea;border-radius:20px;overflow:hidden;margin:10px 0}
 .progress span{height:100%;display:block;background:#2c9568;border-radius:20px;width:0}
-input,select{width:100%;padding:11px 12px;border:1px solid #d9e3db;border-radius:10px;background:white;color:var(--ink);font:inherit;min-width:0}
-label{display:block;font-size:12px;color:var(--muted);margin:9px 0 5px}
-button.primary{background:var(--green);color:white;border:0;border-radius:11px;padding:11px 15px;font-weight:700}
-button.secondary{background:var(--green2);color:var(--green);border:1px solid #d6e9dc;border-radius:11px;padding:10px 13px;font-weight:700}
-button.danger{background:#fff1f1;color:var(--red);border:1px solid #f0d7d7;border-radius:10px;padding:8px 10px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.field{min-width:0}
-.check{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid #eff3ef}
-.check:last-child{border:0}.check input{width:19px;height:19px;margin:1px 0;accent-color:var(--green)}
-.listitem{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #eff3ef}
-.listitem:last-child{border:0}.amount{font-weight:750;white-space:nowrap}
-.pill{font-size:11px;padding:4px 8px;border-radius:99px;background:var(--green2);color:var(--green)}
-.notice{background:#fff8e9;border:1px solid #f0e1bf;color:#75521c;padding:11px 12px;border-radius:12px;font-size:12px}
-footer{text-align:center;color:var(--muted);font-size:11px;padding:18px}
+.pill{font-size:11px;padding:4px 9px;border-radius:99px;background:var(--g2);color:var(--g)}
+.listitem{display:flex;justify-content:space-between;align-items:center;
+gap:10px;padding:10px 0;border-bottom:1px solid #eff3ef}
+.listitem:last-child{border:0}
+.amount{font-weight:750;white-space:nowrap}
+.check{display:flex;align-items:flex-start;gap:10px;padding:9px 0;
+border-bottom:1px solid #eff3ef}
+.check input{width:19px;height:19px;margin:1px 0;accent-color:var(--g)}
+.notice{background:#fff8e9;border:1px solid #f0e1bf;color:#75521c;
+padding:12px;border-radius:12px;font-size:12px}
 .empty{color:var(--muted);font-size:13px;padding:12px 0}
-@media(min-width:650px){.quick{grid-template-columns:repeat(4,1fr)}.wrap{padding-left:22px;padding-right:22px}.hero h1{font-size:38px}}
+.big-number{font-size:26px;font-weight:800;color:var(--g)}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+@media(min-width:650px){
+.quick{grid-template-columns:repeat(4,1fr)}
+.wrap{padding-left:22px;padding-right:22px}
+.hero h1{font-size:40px}
+}
 </style>
 </head>
 <body>
 
 <header>
- <div class="top"><div class="brand">🌿 MY BETTER SELF</div><div class="date" id="todayDate"></div></div>
- <div class="hero"><div class="eyebrow">SMALL STEPS. BETTER DAYS.</div><h1>Your life, in balance.</h1><p>Health • Money • Confidence • Growth</p></div>
+ <div class="top">
+  <div class="brand">🌿 EVOLV</div>
+  <div class="date" id="todayDate"></div>
+ </div>
+ <div class="hero">
+  <div style="font-size:12px;opacity:.8">SMALL STEPS. BETTER DAYS.</div>
+  <h1>Your life, in balance.</h1>
+  <p>Health • Money • Confidence • Growth</p>
+ </div>
 </header>
 
 <main class="wrap">
- <section class="quick">
-  <div class="metric"><small>Monthly salary</small><strong id="salaryMetric">--</strong></div>
-  <div class="metric"><small>Available after plan</small><strong class="green" id="leftMetric">--</strong></div>
-  <div class="metric"><small>Spent this month</small><strong id="spentMetric">--</strong></div>
-  <div class="metric"><small>Habits today</small><strong id="habitMetric">0 / 19</strong></div>
- </section>
 
- <nav>
-  <button class="active" data-tab="home">Today</button>
-  <button data-tab="money">My money</button>
-  <button data-tab="health">Health & beauty</button>
-  <button data-tab="food">Food plan</button>
-  <button data-tab="settings">Settings</button>
- </nav>
+<section class="quick">
+ <div class="metric"><small>Monthly salary</small><strong id="salaryMetric">AED 0</strong></div>
+ <div class="metric"><small>Money remaining</small><strong id="leftMetric" class="green">AED 0</strong></div>
+ <div class="metric"><small>Spent this month</small><strong id="spentMetric">AED 0</strong></div>
+ <div class="metric"><small>Habits completed</small><strong id="habitMetric">0 / 0</strong></div>
+</section>
 
- <section class="panel active" id="home">
-  <div class="card">
-   <div class="row"><h2>Today's habits</h2><span class="pill" id="habitPercent">0% done</span></div>
-   <div class="progress"><span id="habitBar"></span></div>
-   <div id="habitList"></div>
-   <button class="secondary" id="resetHabits" style="margin-top:12px">Reset today's checklist</button>
-  </div>
-  <div class="card">
-   <h2>Today's reminders</h2>
-   <div class="listitem"><span>🌅 6:30 AM · Morning hygiene, skincare & breakfast</span><span class="pill">Morning</span></div>
-   <div class="listitem"><span>💧 1:00 PM · Lunch, water & posture check</span><span class="pill">Work</span></div>
-   <div class="listitem"><span>🌙 9:30 PM · Shower, exercise & night skincare</span><span class="pill">Night</span></div>
-   <div class="listitem"><span>🧾 10:00 PM · Record today's spending</span><span class="pill">Money</span></div>
-   <p class="muted">Browser notifications require permission and the app to be open.</p>
-  </div>
-  <div class="card">
-   <h2>Weekly intention</h2>
-   <p class="muted">Focus on consistency, not perfection. Healthy skin is not about becoming fair; it is about caring for your skin.</p>
-   <label for="weeklyNote">My note for this week</label>
-   <input id="weeklyNote" placeholder="Example: Walk 3 times and save money">
-   <button class="secondary" id="saveNote" style="margin-top:9px">Save note</button>
-  </div>
- </section>
+<nav>
+ <button class="active" data-tab="home">Today</button>
+ <button data-tab="money">💰 My Money</button>
+ <button data-tab="health">Health & Beauty</button>
+ <button data-tab="food">Food Plan</button>
+ <button data-tab="settings">Settings</button>
+</nav>
 
- <section class="panel" id="money">
-  <div class="card">
-   <h2>Monthly salary plan</h2>
-   <p class="muted">All amounts are entered in your selected currency.</p>
-   <div class="grid2">
-    <div class="field"><label>Salary (<span class="currency-code"></span>)</label><input type="number" id="salary" min="0"></div>
-    <div class="field"><label>Family remittance (<span class="currency-code"></span>)</label><input type="number" id="family" min="0"></div>
-    <div class="field"><label>Food budget (<span class="currency-code"></span>)</label><input type="number" id="foodBudget" min="0"></div>
-    <div class="field"><label>Wi-Fi (<span class="currency-code"></span>)</label><input type="number" id="wifi" min="0"></div>
-    <div class="field"><label>Advance repayment (<span class="currency-code"></span>)</label><input type="number" id="advance" min="0"></div>
-    <div class="field"><label>Other fixed costs (<span class="currency-code"></span>)</label><input type="number" id="fixed" min="0"></div>
-   </div>
-   <button class="primary" id="saveBudget" style="margin-top:13px">Save salary plan</button>
-   <div class="progress"><span id="budgetBar"></span></div>
-   <div id="budgetSummary" class="muted"></div>
+<!-- HOME -->
+<section class="panel active" id="home">
+ <div class="card">
+  <div class="row">
+   <h2>Today's habits</h2>
+   <span class="pill" id="habitPercent">0%</span>
   </div>
+  <div class="progress"><span id="habitBar"></span></div>
+  <div id="habitList"></div>
+  <button class="secondary" id="resetHabits">Reset today's checklist</button>
+ </div>
 
-  <div class="card">
-   <h2>Add an expense</h2>
-   <div class="grid2">
-    <div class="field"><label>Amount (<span class="currency-code"></span>)</label><input id="expenseAmount" type="number" min="0.01" step="0.01" placeholder="e.g. 8"></div>
-    <div class="field"><label>Category</label><select id="expenseCategory"><option>Food</option><option>Transport</option><option>Personal care</option><option>Clothes</option><option>Phone / Internet</option><option>Family</option><option>Other</option></select></div>
-   </div>
-   <label>Description</label><input id="expenseNote" placeholder="What did you buy?">
-   <button class="primary" id="addExpense" style="margin-top:12px">Add expense</button>
-  </div>
+ <div class="card">
+  <h2>Today's reminders</h2>
+  <div class="listitem"><span>🌅 Morning skincare & breakfast</span><span class="pill">6:30 AM</span></div>
+  <div class="listitem"><span>💧 Lunch, water & posture</span><span class="pill">1:00 PM</span></div>
+  <div class="listitem"><span>🌙 Shower, exercise & skincare</span><span class="pill">9:30 PM</span></div>
+  <div class="listitem"><span>🧾 Record today's spending</span><span class="pill">10:00 PM</span></div>
+  <p class="muted">Notifications work while the app is open. Background reminders may require a push service.</p>
+ </div>
 
-  <div class="card">
-   <div class="row"><h2>Expense history</h2><span class="pill" id="expenseCount">0 records</span></div>
-   <div id="expenseList" class="empty">No expenses recorded yet.</div>
-  </div>
+ <div class="card">
+  <h2>Weekly intention</h2>
+  <p class="muted">Focus on consistency, not perfection.</p>
+  <label>My weekly note</label>
+  <input id="weeklyNote" placeholder="My goal this week...">
+  <button class="secondary" id="saveNote" style="margin-top:10px">Save note</button>
+ </div>
+</section>
 
-  <div class="card">
-   <h2>Savings goal</h2>
-   <label>What are you saving for?</label><input id="goalName" placeholder="Emergency fund / course fees">
-   <div class="grid2">
-    <div><label>Target (<span class="currency-code"></span>)</label><input id="goalTarget" type="number" min="0"></div>
-    <div><label>Saved so far (<span class="currency-code"></span>)</label><input id="goalSaved" type="number" min="0"></div>
-   </div>
-   <button class="secondary" id="saveGoal" style="margin-top:12px">Update savings goal</button>
-   <div id="goalSummary" class="muted" style="margin-top:10px"></div>
-  </div>
- </section>
+<!-- MONEY -->
+<section class="panel" id="money">
 
- <section class="panel" id="health">
-  <div class="card"><h2>Skin & grooming</h2><p class="muted">Keep it simple. Aim for healthy, comfortable skin.</p><div id="skinList"></div></div>
-  <div class="card"><h2>Home fitness</h2><p class="muted">Start gently. Rest if you feel pain or unusual discomfort.</p><div id="fitnessList"></div></div>
- </section>
+ <div class="card">
+  <h2>💰 Monthly salary plan</h2>
+  <p class="muted">All amounts in AED.</p>
+  <div class="grid2">
+   <div><label>Monthly salary</label><input type="number" id="salary" min="0"></div>
+   <div><label>Family remittance</label><input type="number" id="family" min="0"></div>
+   <div><label>Food budget</label><input type="number" id="foodBudget" min="0"></div>
+   <div><label>Wi-Fi</label><input type="number" id="wifi" min="0"></div>
+   <div><label>Advance repayment</label><input type="number" id="advance" min="0"></div>
+   <div><label>Other fixed expenses</label><input type="number" id="fixed" min="0"></div>
+  </div>
+  <label>Monthly payday (day of month)</label>
+  <input type="number" id="paydayDay" min="1" max="31" value="15">
+  <button class="primary" id="saveBudget" style="margin-top:12px">Save salary plan</button>
+ </div>
 
- <section class="panel" id="food">
-  <div class="card"><h2>Affordable daily food plan</h2>
-   <div class="listitem"><span><b>Breakfast</b><br><span class="muted">Oats with milk and banana, or eggs and bread</span></span></div>
-   <div class="listitem"><span><b>Lunch</b><br><span class="muted">Rice, dhal, vegetables and egg/fish/chicken when available</span></span></div>
-   <div class="listitem"><span><b>Snack</b><br><span class="muted">Fruit or a small handful of peanuts</span></span></div>
-   <div class="listitem"><span><b>Dinner</b><br><span class="muted">Rice or chapati with dhal, vegetables or eggs</span></span></div>
-   <div class="notice" style="margin-top:12px">Work with your existing food allowance first. No need for expensive supplements.</div>
+ <div class="card" style="background:#f0f7f2">
+  <h2>📊 Daily Money Manager</h2>
+  <div class="grid2">
+   <div><label>Days until payday</label><div class="big-number" id="daysLeft">--</div></div>
+   <div><label>Daily spending limit</label><div class="big-number" id="dailyLimit">--</div></div>
+   <div><label>Available spending balance</label><strong id="spendingBalance">--</strong></div>
+   <div><label>Food budget remaining</label><strong id="foodRemaining">--</strong></div>
+   <div><label>Estimated savings by payday</label><strong id="savingsForecast" class="green">--</strong></div>
+   <div><label>Actual savings wallet</label><strong id="actualSavings" class="green">--</strong></div>
   </div>
-  <div class="card"><h2>Simple shopping list</h2><div id="shopList"></div></div>
- </section>
+  <div class="progress"><span id="moneyProgress"></span></div>
+  <div id="moneyWarning" class="notice">Your spending report will appear here.</div>
+ </div>
 
- <section class="panel" id="settings">
-  <div class="card">
-   <h2>🌍 Country & Currency</h2>
-   <p class="muted">Choose your country. Your financial amounts will be displayed in its currency.</p>
-   <label for="countrySelect">Your country</label>
-   <select id="countrySelect"></select>
-   <p id="currencyStatus" class="muted">Loading exchange rates...</p>
-   <div class="notice">Exchange rates are approximate reference rates. Your bank or money transfer provider may use different rates and fees.</div>
-  </div>
-  <div class="card">
-   <h2>Reminder settings</h2>
-   <p class="muted">Allow notifications to receive reminders while this app is open. Your phone/browser may limit background reminders.</p>
-   <button class="primary" id="enableNotifications">Enable notifications</button>
-   <p id="notificationStatus" class="muted"></p>
-   <div class="notice">For reliable reminders when the app is closed, a push-notification service is needed.</div>
-  </div>
-  <div class="card">
-   <h2>Your privacy</h2>
-   <p class="muted">Your entries are saved in this browser on this device. Clearing browser data may erase them. This version has no account or cloud backup.</p>
-   <button class="danger" id="exportData">Export my data</button>
-   <button class="danger" id="clearData">Delete all app data</button>
-  </div>
-  <div class="card"><h2>App information</h2><p class="muted">My Better Self · Version 2.0 · Free personal tracker.</p></div>
- </section>
+ <div class="card">
+  <h2>➕ Add an expense</h2>
+  <label>Amount (AED)</label>
+  <input type="number" id="expenseAmount" min="0.01" step="0.01" placeholder="Example: 5">
+  <label>Category</label>
+  <select id="expenseCategory">
+   <option>Food</option>
+   <option>Transport</option>
+   <option>Personal care</option>
+   <option>Clothes</option>
+   <option>Phone / Internet</option>
+   <option>Family</option>
+   <option>Other</option>
+  </select>
+  <label>Description</label>
+  <input id="expenseNote" placeholder="What did you buy?">
+  <button class="primary" id="addExpense" style="margin-top:12px">Add expense</button>
+ </div>
 
- <footer>Created & Developed by <strong>Faizal Hasni Ahamed</strong> · 2026</footer>
+ <div class="card">
+  <div class="row"><h2>Expense history</h2><span class="pill" id="expenseCount">0 records</span></div>
+  <div id="expenseList" class="empty">No expenses yet.</div>
+ </div>
+
+ <div class="card">
+  <h2>🐷 My Savings Wallet</h2>
+  <p class="muted">Record money you actually put aside. This is separate from your estimated savings.</p>
+  <div class="big-number" id="walletBalance">AED 0</div>
+  <label>Add money to savings</label>
+  <input type="number" id="saveAmount" min="0.01" step="0.01" placeholder="Amount in AED">
+  <button class="primary" id="addSaving" style="margin-top:10px">Add to savings</button>
+  <label>Withdraw from savings</label>
+  <input type="number" id="withdrawAmount" min="0.01" step="0.01" placeholder="Amount in AED">
+  <button class="secondary" id="withdrawSaving" style="margin-top:10px">Withdraw</button>
+  <div id="savingHistory"></div>
+ </div>
+
+ <div class="card">
+  <h2>🎯 Savings goal</h2>
+  <label>What are you saving for?</label>
+  <input id="goalName" placeholder="Emergency fund / course fees">
+  <div class="grid2">
+   <div><label>Target (AED)</label><input type="number" id="goalTarget" min="0"></div>
+   <div><label>Saved amount (AED)</label><input type="number" id="goalSaved" min="0"></div>
+  </div>
+  <button class="secondary" id="saveGoal" style="margin-top:12px">Update goal</button>
+  <div id="goalSummary" style="margin-top:10px"></div>
+ </div>
+
+ <div class="card">
+  <h2>📈 Spending reports</h2>
+  <p class="muted">Your expenses grouped by category this month.</p>
+  <div id="categoryReport"></div>
+  <div class="row" style="margin-top:14px">
+   <span>This month total</span>
+   <strong id="reportTotal">AED 0</strong>
+  </div>
+ </div>
+
+</section>
+
+<!-- HEALTH -->
+<section class="panel" id="health">
+ <div class="card">
+  <h2>Skin & grooming</h2>
+  <p class="muted">Simple and consistent care.</p>
+  <div id="skinList"></div>
+ </div>
+ <div class="card">
+  <h2>Home fitness</h2>
+  <p class="muted">Start gently and rest when needed.</p>
+  <div id="fitnessList"></div>
+ </div>
+</section>
+
+<!-- FOOD -->
+<section class="panel" id="food">
+ <div class="card">
+  <h2>Affordable daily food plan</h2>
+  <div class="listitem"><span><b>Breakfast</b><br><span class="muted">Oats, milk and banana or eggs and bread</span></span></div>
+  <div class="listitem"><span><b>Lunch</b><br><span class="muted">Rice, dhal, vegetables and egg/fish/chicken</span></span></div>
+  <div class="listitem"><span><b>Snack</b><br><span class="muted">Fruit or peanuts</span></span></div>
+  <div class="listitem"><span><b>Dinner</b><br><span class="muted">Rice or chapati with vegetables and protein</span></span></div>
+  <div class="notice">Use your existing food allowance first. No need for expensive supplements.</div>
+ </div>
+ <div class="card">
+  <h2>Shopping checklist</h2>
+  <div id="shopList"></div>
+ </div>
+</section>
+
+<!-- SETTINGS -->
+<section class="panel" id="settings">
+ <div class="card">
+  <h2>🔔 Reminders</h2>
+  <p class="muted">Allow notifications for reminders while the app is open.</p>
+  <button class="primary" id="enableNotifications">Enable notifications</button>
+  <p id="notificationStatus" class="muted"></p>
+ </div>
+ <div class="card">
+  <h2>🔐 Your data</h2>
+  <p class="muted">Your information is stored in this browser on this device. Export a backup regularly.</p>
+  <button class="secondary" id="exportData">Export my data</button>
+  <label>Restore a previous backup</label>
+  <input type="file" id="importFile" accept=".json,application/json">
+  <button class="secondary" id="importData" style="margin-top:10px">Restore backup</button>
+  <p></p>
+  <button class="danger" id="clearData">Delete all app data</button>
+ </div>
+ <div class="card">
+  <h2>About EVOLV</h2>
+  <p class="muted">EVOLV · Be a Better You · Version 3.0</p>
+  <p class="muted">Health • Money • Confidence • Growth</p>
+ </div>
+</section>
+
+<footer>Created & Developed by Faizal Hasni Ahamed · 2026</footer>
 </main>
 
 <script>
 const $=id=>document.getElementById(id);
-
-const countryCurrencies={
-"United Arab Emirates":"AED","Sri Lanka":"LKR","India":"INR",
-"Saudi Arabia":"SAR","Qatar":"QAR","Kuwait":"KWD","Oman":"OMR",
-"Bahrain":"BHD","United Kingdom":"GBP","United States":"USD",
-"Canada":"CAD","Australia":"AUD","Singapore":"SGD","Malaysia":"MYR",
-"Indonesia":"IDR","Pakistan":"PKR","Bangladesh":"BDT","Nepal":"NPR",
-"Philippines":"PHP","South Africa":"ZAR"
-};
-
-const oldCountry=localStorage.getItem("myBetterSelfCountry")||"United Arab Emirates";
-let selectedCountry=countryCurrencies[oldCountry]?oldCountry:"United Arab Emirates";
-let selectedCurrency=countryCurrencies[selectedCountry];
-
-const existingRaw=localStorage.getItem("mbs-data");
-const defaultData={
- budget:{salary:0,family:0,food:0,wifi:0,advance:0,fixed:0},
+const money=n=>"AED "+(Number(n)||0).toFixed(2);
+const today=()=>localDate(new Date());
+function localDate(d){
+ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+const defaults={
+ budget:{salary:1200,family:700,food:230,wifi:20,advance:0,fixed:0},
+ paydayDay:15,
  expenses:[],
+ savingsWallet:0,
+ savingsHistory:[],
  goal:{name:"Emergency savings",target:0,saved:0},
- habits:{},note:"",currencyBase:selectedCurrency
+ habits:{},note:""
 };
-
 let data;
 try{
- if(existingRaw){
-  data={...defaultData,...JSON.parse(existingRaw)};
-  data.budget={...defaultData.budget,...data.budget};
-  data.goal={...defaultData.goal,...data.goal};
-  data.expenses=data.expenses||[];
-  data.habits=data.habits||{};
-  // Older app records were stored in AED.
-  if(!data.currencyBase)data.currencyBase="AED";
- }else{
-  data=JSON.parse(JSON.stringify(defaultData));
- }
-}catch(e){
- data=JSON.parse(JSON.stringify(defaultData));
+ const old=JSON.parse(localStorage.getItem("mbs-data")||"null");
+ data={...defaults,...(old||{})};
+ data.budget={...defaults.budget,...(data.budget||{})};
+ data.goal={...defaults.goal,...(data.goal||{})};
+ data.expenses=Array.isArray(data.expenses)?data.expenses:[];
+ data.savingsHistory=Array.isArray(data.savingsHistory)?data.savingsHistory:[];
+ data.habits=data.habits||{};
+}catch(e){data=JSON.parse(JSON.stringify(defaults));}
+
+function save(){
+ localStorage.setItem("mbs-data",JSON.stringify(data));
 }
-
-let exchangeRates={};
-let currentRate=1;
-let rateReady=false;
-let rateSource="";
-
-const save=()=>localStorage.setItem("mbs-data",JSON.stringify(data));
-const today=()=>new Date().toISOString().slice(0,10);
-
 $("todayDate").textContent=new Date().toLocaleDateString(undefined,{
  weekday:"short",day:"numeric",month:"short",year:"numeric"
 });
 
-function fmt(n){
- if(!rateReady)return "Rate unavailable";
- try{
-  return new Intl.NumberFormat(undefined,{
-   style:"currency",currency:selectedCurrency,
-   maximumFractionDigits:2
-  }).format((Number(n)||0)*currentRate);
- }catch(e){
-  return selectedCurrency+" "+((Number(n)||0)*currentRate).toFixed(2);
- }
-}
-
-function toBase(amount){
- if(!rateReady)return null;
- return (Number(amount)||0)/currentRate;
-}
-
-function updateCurrencyLabels(){
- document.querySelectorAll(".currency-code").forEach(el=>{
-  el.textContent=selectedCurrency;
- });
-}
-
-async function loadExchangeRates(){
- selectedCountry=$("countrySelect").value;
- selectedCurrency=countryCurrencies[selectedCountry];
- localStorage.setItem("myBetterSelfCountry",selectedCountry);
- localStorage.setItem("myBetterSelfCurrency",selectedCurrency);
- updateCurrencyLabels();
-
- if(selectedCurrency===data.currencyBase){
-  currentRate=1;
-  rateReady=true;
-  rateSource="Original currency";
-  refreshMoneyViews();
-  return;
- }
-
- const cacheKey="mbs-rates-"+data.currencyBase;
- let cached=null;
- try{cached=JSON.parse(localStorage.getItem(cacheKey)||"null")}catch(e){}
-
- if(cached&&cached.rates&&Date.now()-cached.time<86400000){
-  exchangeRates=cached.rates;
-  currentRate=exchangeRates[selectedCurrency];
-  rateReady=Number.isFinite(currentRate);
-  rateSource="Saved exchange rate";
-  refreshMoneyViews();
- }
-
- $("currencyStatus").textContent="Checking latest exchange rates...";
-
- try{
-  const response=await fetch("https://open.er-api.com/v6/latest/"+encodeURIComponent(data.currencyBase));
-  if(!response.ok)throw new Error("Rate service unavailable");
-  const result=await response.json();
-  if(result.result!=="success"||!result.rates)throw new Error("Invalid rate response");
-
-  exchangeRates=result.rates;
-  localStorage.setItem(cacheKey,JSON.stringify({
-   rates:exchangeRates,time:Date.now()
-  }));
-
-  currentRate=exchangeRates[selectedCurrency];
-  rateReady=Number.isFinite(currentRate)&&currentRate>0;
-  rateSource="Latest available reference rate";
- }catch(e){
-  if(!rateReady){
-   $("currencyStatus").textContent="Exchange rate unavailable. Connect to the internet and try again.";
-   refreshMoneyViews();
-   return;
-  }
-  rateSource="Previously saved exchange rate (offline)";
- }
-
- $("currencyStatus").textContent=rateReady
-  ?"1 "+data.currencyBase+" = "+currentRate.toFixed(4)+" "+selectedCurrency+" · "+rateSource
-  :"Exchange rate unavailable. Please try again.";
-
- refreshMoneyViews();
-}
-
-function refreshMoneyViews(){
- fillBudget();
- renderExpenses();
- renderGoal();
- updateDashboard();
-}
-
 const habitGroups=[
- ["Morning routine",["Brush teeth and clean tongue","Wash face and moisturise","Apply sunscreen","Drink water","Eat breakfast"]],
- ["Healthy lifestyle",["Eat fruit","Eat vegetables and protein","Drink water regularly","Avoid excess sugary drinks"]],
+ ["Morning routine",[
+  "Brush teeth and clean tongue","Wash face and moisturise",
+  "Apply sunscreen","Drink water","Eat breakfast"
+ ]],
+ ["Healthy lifestyle",[
+  "Eat fruit","Eat vegetables and protein",
+  "Drink water regularly","Avoid excess sugary drinks"
+ ]],
  ["Fitness",["Walk or exercise","Stretch and maintain posture"]],
- ["Beauty & hygiene",["Shower and use deodorant","Keep hair and nails clean","Wear clean clothes"]],
- ["Night routine",["Wash face gently","Night moisturiser / Differin as directed","Brush teeth","Record today's expenses","Aim for sufficient sleep"]]
+ ["Beauty & hygiene",[
+  "Shower and use deodorant","Keep hair and nails clean",
+  "Wear clean clothes"
+ ]],
+ ["Night routine",[
+  "Wash face gently","Night skincare routine",
+  "Brush teeth","Record today's expenses","Aim for sufficient sleep"
+ ]]
 ];
 
 function renderHabits(){
- const key=today();
- const done=data.habits[key]||[];
- $("habitList").innerHTML=habitGroups.map(([g,items])=>
-  `<h3 style="margin-top:12px">${g}</h3>`+
-  items.map(x=>`<label class="check"><input type="checkbox" data-habit="${encodeURIComponent(x)}" ${done.includes(x)?"checked":""}><span>${x}</span></label>`).join("")
+ const done=data.habits[today()]||[];
+ $("habitList").innerHTML=habitGroups.map(([group,items])=>
+  `<h3>${group}</h3>`+
+  items.map(item=>`
+   <label class="check">
+    <input type="checkbox" data-habit="${encodeURIComponent(item)}" ${done.includes(item)?"checked":""}>
+    <span>${item}</span>
+   </label>`).join("")
  ).join("");
 
  $("habitList").querySelectorAll("[data-habit]").forEach(el=>{
-  el.addEventListener("change",()=>{
-   const v=decodeURIComponent(el.dataset.habit);
-   let a=data.habits[key]||[];
-   data.habits[key]=el.checked?[...new Set([...a,v])]:a.filter(x=>x!==v);
+  el.onchange=()=>{
+   const item=decodeURIComponent(el.dataset.habit);
+   let list=data.habits[today()]||[];
+   data.habits[today()]=el.checked
+    ?[...new Set([...list,item])]
+    :list.filter(x=>x!==item);
    save();updateDashboard();
-  });
+  };
  });
  updateDashboard();
+}
+
+function getCycle(){
+ const now=new Date();
+ const day=Math.min(31,Math.max(1,Number(data.paydayDay)||15));
+ let start=new Date(now.getFullYear(),now.getMonth(),day);
+ if(now<start)start=new Date(now.getFullYear(),now.getMonth()-1,day);
+ const next=new Date(start.getFullYear(),start.getMonth()+1,day);
+ const remaining=Math.max(1,Math.ceil(
+  (new Date(next.getFullYear(),next.getMonth(),next.getDate())-
+   new Date(now.getFullYear(),now.getMonth(),now.getDate()))/86400000
+ ));
+ return {start:localDate(start),next:localDate(next),remaining};
+}
+
+function cycleExpenses(){
+ const c=getCycle();
+ return data.expenses.filter(e=>e.date>=c.start&&e.date<c.next);
+}
+
+function calculateMoney(){
+ const b=data.budget;
+ const salary=Number(b.salary)||0;
+ const family=Number(b.family)||0;
+ const food=Number(b.food)||0;
+ const wifi=Number(b.wifi)||0;
+ const advance=Number(b.advance)||0;
+ const fixed=Number(b.fixed)||0;
+ const expenses=cycleExpenses();
+
+ const foodSpent=expenses.filter(e=>e.category==="Food")
+  .reduce((s,e)=>s+Number(e.amount),0);
+
+ const otherSpent=expenses.filter(e=>e.category!=="Food")
+  .reduce((s,e)=>s+Number(e.amount),0);
+
+ const commitments=family+wifi+advance+fixed;
+ const foodRemaining=food-foodSpent;
+
+ // Money available for flexible spending after planned commitments.
+ const available=salary-commitments-food-otherSpent;
+ const daily=available>0?available/getCycle().remaining:0;
+
+ // Forecast includes unused food budget and flexible money.
+ const forecast=salary-commitments-foodSpent-otherSpent;
+
+ return {
+  salary,commitments,food,foodSpent,otherSpent,
+  available,foodRemaining,daily,forecast,expenses
+ };
 }
 
 function updateDashboard(){
  const done=data.habits[today()]||[];
- const total=habitGroups.reduce((n,g)=>n+g[1].length,0);
- const p=Math.round(done.length/total*100);
- $("habitMetric").textContent=`${done.length} / ${total}`;
- $("habitPercent").textContent=p+"% done";
- $("habitBar").style.width=p+"%";
+ const total=habitGroups.reduce((s,g)=>s+g[1].length,0);
+ const percent=Math.round(done.length/total*100);
 
- const b=data.budget;
- const planned=+b.family + +b.food + +b.wifi + +b.advance + +b.fixed;
- const spentMonth=data.expenses.filter(e=>e.month===today().slice(0,7))
-  .reduce((s,e)=>s+e.amount,0);
+ $("habitMetric").textContent=done.length+" / "+total;
+ $("habitPercent").textContent=percent+"% done";
+ $("habitBar").style.width=percent+"%";
 
- $("salaryMetric").textContent=fmt(b.salary);
- $("leftMetric").textContent=fmt(+b.salary-planned-spentMonth);
- $("spentMetric").textContent=fmt(spentMonth);
- $("budgetBar").style.width=Math.min(100,planned/(+b.salary||1)*100)+"%";
+ const month=today().slice(0,7);
+ const monthExpenses=data.expenses.filter(e=>e.date.startsWith(month));
+ const spentMonth=monthExpenses.reduce((s,e)=>s+Number(e.amount),0);
+ const m=calculateMoney();
+ const c=getCycle();
 
- $("budgetSummary").innerHTML=
- `Planned commitments: <b>${fmt(planned)}</b><br>
- Estimated remaining before variable expenses: <b>${fmt(+b.salary-planned)}</b><br>
- Variable expenses this month: <b>${fmt(spentMonth)}</b><br>
- <b>Estimated balance after recorded expenses: ${fmt(+b.salary-planned-spentMonth)}</b>`;
+ $("salaryMetric").textContent=money(m.salary);
+ $("leftMetric").textContent=money(m.forecast);
+ $("spentMetric").textContent=money(spentMonth);
+
+ $("daysLeft").textContent=c.remaining+" days";
+ $("dailyLimit").textContent=money(m.daily);
+ $("spendingBalance").textContent=money(m.available);
+ $("foodRemaining").textContent=money(m.foodRemaining);
+ $("savingsForecast").textContent=money(Math.max(0,m.forecast));
+ $("actualSavings").textContent=money(data.savingsWallet);
+ $("walletBalance").textContent=money(data.savingsWallet);
+
+ const used=m.salary>0?Math.max(0,Math.min(100,
+  (m.salary-m.forecast)/m.salary*100)):0;
+ $("moneyProgress").style.width=used+"%";
+
+ let warning;
+ if(m.available<0){
+  warning="⚠️ You have exceeded your planned flexible spending. Avoid unnecessary purchases.";
+ }else if(m.daily<5){
+  warning="⚠️ Your daily allowance is low. Reduce spending where possible.";
+ }else{
+  warning="✅ Your daily allowance is "+money(m.daily)+
+   ". Spending less leaves more money for savings.";
+ }
+ if(m.foodRemaining<0)warning+=" You have exceeded your food budget.";
+ $("moneyWarning").textContent=warning;
+
+ renderReports();
+ renderGoal();
 }
 
 function fillBudget(){
- const fields={salary:"salary",family:"family",food:"foodBudget",wifi:"wifi",advance:"advance",fixed:"fixed"};
- for(const [k,id] of Object.entries(fields)){
-  $(id).value=rateReady?(data.budget[k]*currentRate).toFixed(2):"";
- }
+ const map={
+  salary:"salary",family:"family",food:"foodBudget",
+  wifi:"wifi",advance:"advance",fixed:"fixed"
+ };
+ Object.entries(map).forEach(([k,id])=>{
+  $(id).value=data.budget[k];
+ });
+ $("paydayDay").value=data.paydayDay;
 }
 
 $("saveBudget").onclick=()=>{
- if(!rateReady){alert("Exchange rate is not ready. Connect to the internet first.");return}
- const fields={salary:"salary",family:"family",food:"foodBudget",wifi:"wifi",advance:"advance",fixed:"fixed"};
- for(const [k,id] of Object.entries(fields)){
-  const converted=toBase($(id).value);
-  data.budget[k]=Math.max(0,converted||0);
+ const map={
+  salary:"salary",family:"family",food:"foodBudget",
+  wifi:"wifi",advance:"advance",fixed:"fixed"
+ };
+ for(const [k,id] of Object.entries(map)){
+  const n=Number($(id).value);
+  if(!Number.isFinite(n)||n<0){
+   alert("Please enter valid positive amounts.");
+   return;
+  }
+  data.budget[k]=n;
  }
- save();updateDashboard();alert("Salary plan saved on this device.");
+ const day=Number($("paydayDay").value);
+ if(!Number.isInteger(day)||day<1||day>31){
+  alert("Payday must be between 1 and 31.");
+  return;
+ }
+ data.paydayDay=day;
+ save();updateDashboard();
+ alert("Your salary plan has been saved!");
 };
 
 $("addExpense").onclick=()=>{
- if(!rateReady){alert("Exchange rate is not ready. Connect to the internet first.");return}
  const amount=Number($("expenseAmount").value);
- if(!(amount>0)){alert("Enter an amount greater than zero.");return}
- const storedAmount=toBase(amount);
+ if(!Number.isFinite(amount)||amount<=0){
+  alert("Enter a valid expense amount.");
+  return;
+ }
  data.expenses.unshift({
-  id:Date.now(),amount:storedAmount,
+  id:Date.now(),amount,
   category:$("expenseCategory").value,
   note:$("expenseNote").value.trim(),
-  date:today(),month:today().slice(0,7)
+  date:today()
  });
  $("expenseAmount").value="";
  $("expenseNote").value="";
@@ -414,144 +514,231 @@ $("addExpense").onclick=()=>{
 };
 
 function renderExpenses(){
- $("expenseCount").textContent=data.expenses.length+" records";
- $("expenseList").innerHTML=data.expenses.length
- ?data.expenses.map(e=>`
+ const list=data.expenses;
+ $("expenseCount").textContent=list.length+" records";
+ $("expenseList").innerHTML=list.length?list.map(e=>`
   <div class="listitem">
-   <div><b>${e.category}</b><div class="muted">${e.note||"No description"} · ${e.date}</div></div>
-   <div class="row"><span class="amount">${fmt(e.amount)}</span><button class="danger" data-del="${e.id}">×</button></div>
-  </div>`).join("")
- :'<div class="empty">No expenses recorded yet.</div>';
+   <div><b>${escapeHTML(e.category)}</b>
+   <div class="muted">${escapeHTML(e.note||"No description")} · ${e.date}</div></div>
+   <div class="row"><span class="amount">${money(e.amount)}</span>
+   <button class="danger" data-delete="${e.id}">×</button></div>
+  </div>`).join(""):'<div class="empty">No expenses recorded yet.</div>';
 
- $("expenseList").querySelectorAll("[data-del]").forEach(b=>{
-  b.onclick=()=>{
-   data.expenses=data.expenses.filter(e=>e.id!==Number(b.dataset.del));
+ $("expenseList").querySelectorAll("[data-delete]").forEach(btn=>{
+  btn.onclick=()=>{
+   if(!confirm("Delete this expense?"))return;
+   data.expenses=data.expenses.filter(e=>String(e.id)!==btn.dataset.delete);
    save();renderExpenses();updateDashboard();
   };
  });
 }
 
+function renderReports(){
+ const month=today().slice(0,7);
+ const records=data.expenses.filter(e=>e.date.startsWith(month));
+ const total=records.reduce((s,e)=>s+Number(e.amount),0);
+ $("reportTotal").textContent=money(total);
+ const groups={};
+ records.forEach(e=>{
+  groups[e.category]=(groups[e.category]||0)+Number(e.amount);
+ });
+ const entries=Object.entries(groups).sort((a,b)=>b[1]-a[1]);
+ $("categoryReport").innerHTML=entries.length?entries.map(([name,value])=>`
+  <div class="listitem">
+   <span>${escapeHTML(name)}</span>
+   <strong>${money(value)}</strong>
+  </div>`).join(""):'<div class="empty">No spending recorded this month.</div>';
+}
+
+$("addSaving").onclick=()=>{
+ const amount=Number($("saveAmount").value);
+ if(!Number.isFinite(amount)||amount<=0){
+  alert("Enter a valid savings amount.");
+  return;
+ }
+ data.savingsWallet+=amount;
+ data.savingsHistory.unshift({
+  amount,type:"Deposit",date:today()
+ });
+ $("saveAmount").value="";
+ save();renderSavings();updateDashboard();
+};
+
+$("withdrawSaving").onclick=()=>{
+ const amount=Number($("withdrawAmount").value);
+ if(!Number.isFinite(amount)||amount<=0||amount>data.savingsWallet){
+  alert("Enter a valid amount within your savings balance.");
+  return;
+ }
+ data.savingsWallet-=amount;
+ data.savingsHistory.unshift({
+  amount,type:"Withdrawal",date:today()
+ });
+ $("withdrawAmount").value="";
+ save();renderSavings();updateDashboard();
+};
+
+function renderSavings(){
+ $("walletBalance").textContent=money(data.savingsWallet);
+ $("savingHistory").innerHTML="<h3>Wallet history</h3>"+
+ (data.savingsHistory.length?data.savingsHistory.slice(0,15).map(x=>`
+  <div class="listitem">
+   <span>${x.type} · ${x.date}</span>
+   <strong>${x.type==="Deposit"?"+":"-"}${money(x.amount)}</strong>
+  </div>`).join(""):'<div class="empty">No wallet activity yet.</div>');
+}
+
 $("saveGoal").onclick=()=>{
- if(!rateReady){alert("Exchange rate is not ready. Connect to the internet first.");return}
+ const target=Number($("goalTarget").value);
+ const saved=Number($("goalSaved").value);
+ if(target<0||saved<0||!Number.isFinite(target)||!Number.isFinite(saved)){
+  alert("Enter valid savings amounts.");
+  return;
+ }
  data.goal={
   name:$("goalName").value.trim()||"My savings",
-  target:Math.max(0,toBase($("goalTarget").value)||0),
-  saved:Math.max(0,toBase($("goalSaved").value)||0)
+  target,saved
  };
  save();renderGoal();
 };
 
 function renderGoal(){
  $("goalName").value=data.goal.name;
- $("goalTarget").value=rateReady?(data.goal.target*currentRate).toFixed(2):"";
- $("goalSaved").value=rateReady?(data.goal.saved*currentRate).toFixed(2):"";
- const p=data.goal.target?Math.min(100,data.goal.saved/data.goal.target*100):0;
- $("goalSummary").innerHTML=
- `${fmt(data.goal.saved)} saved of ${fmt(data.goal.target)} · ${Math.round(p)}% complete
- <div class="progress"><span style="width:${p}%"></span></div>`;
+ $("goalTarget").value=data.goal.target;
+ $("goalSaved").value=data.goal.saved;
+ const target=Number(data.goal.target)||0;
+ const saved=Number(data.goal.saved)||0;
+ const percent=target>0?Math.min(100,saved/target*100):0;
+ $("goalSummary").innerHTML=`
+  <b>${money(saved)}</b> saved of ${money(target)}
+  · ${Math.round(percent)}% complete
+  <div class="progress"><span style="width:${percent}%"></span></div>`;
 }
 
-function makeCheckList(id,items){
- $(id).innerHTML=items.map(x=>`<label class="check"><input type="checkbox"><span>${x}</span></label>`).join("");
+function escapeHTML(s){
+ return String(s).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",
+  '"':"&quot;","'":"&#39;"
+ }[c]));
 }
 
-makeCheckList("skinList",[
+function makeChecks(id,items){
+ $(id).innerHTML=items.map(x=>`
+  <label class="check"><input type="checkbox"><span>${x}</span></label>
+ `).join("");
+}
+
+makeChecks("skinList",[
  "Gentle face wash","Moisturiser","Sunscreen in the morning",
- "Night routine as directed","Clean pillowcase regularly"
+ "Night skincare routine","Clean pillowcase regularly"
 ]);
-makeCheckList("fitnessList",[
+makeChecks("fitnessList",[
  "10–15 minute walk","Wall or knee push-ups",
  "Bodyweight squats","Gentle stretching"
 ]);
-makeCheckList("shopList",[
+makeChecks("shopList",[
  "Eggs","Bananas","Oats","Dhal / chickpeas",
  "Seasonal vegetables","Peanuts"
 ]);
 
 $("resetHabits").onclick=()=>{
  if(confirm("Reset today's habit checklist?")){
-  delete data.habits[today()];save();renderHabits();
+  delete data.habits[today()];
+  save();renderHabits();
  }
 };
 
 $("saveNote").onclick=()=>{
- data.note=$("weeklyNote").value;save();alert("Note saved.");
+ data.note=$("weeklyNote").value;
+ save();alert("Weekly note saved!");
 };
+
 $("weeklyNote").value=data.note||"";
 
-document.querySelectorAll("nav button").forEach(b=>{
- b.onclick=()=>{
+document.querySelectorAll("nav button").forEach(btn=>{
+ btn.onclick=()=>{
   document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));
   document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
-  b.classList.add("active");
-  $(b.dataset.tab).classList.add("active");
+  btn.classList.add("active");
+  $(btn.dataset.tab).classList.add("active");
  };
 });
 
-Object.keys(countryCurrencies).forEach(country=>{
- const option=document.createElement("option");
- option.value=country;
- option.textContent=country+" ("+countryCurrencies[country]+")";
- $("countrySelect").appendChild(option);
-});
-$("countrySelect").value=selectedCountry;
-$("countrySelect").addEventListener("change",loadExchangeRates);
-
 $("enableNotifications").onclick=async()=>{
  if(!("Notification"in window)){
-  $("notificationStatus").textContent="Notifications are not supported in this browser.";
+  $("notificationStatus").textContent="Notifications not supported.";
   return;
  }
- const p=await Notification.requestPermission();
- $("notificationStatus").textContent=p==="granted"
+ const permission=await Notification.requestPermission();
+ $("notificationStatus").textContent=permission==="granted"
  ?"Notifications enabled while the app is open."
- :"Notification permission not granted.";
+ :"Permission was not granted.";
 };
 
-const reminderTimes=[
+const reminders=[
  {h:6,m:30,msg:"Morning routine: skincare, water and breakfast."},
  {h:13,m:0,msg:"Lunch, drink water and check your posture."},
- {h:21,m:30,msg:"Evening routine: shower, movement and skincare."},
+ {h:21,m:30,msg:"Evening routine: shower, exercise and skincare."},
  {h:22,m:0,msg:"Record today's expenses and prepare for tomorrow."}
 ];
 let lastNotice="";
 function checkReminders(){
  if(!("Notification"in window)||Notification.permission!=="granted")return;
  const d=new Date();
- for(const r of reminderTimes){
+ reminders.forEach(r=>{
   if(d.getHours()===r.h&&d.getMinutes()===r.m){
-   const k=today()+r.h+":"+r.m;
-   if(k!==lastNotice){
-    new Notification("My Better Self",{body:r.msg,icon:"icon.svg"});
-    lastNotice=k;
+   const key=today()+r.h+":"+r.m;
+   if(key!==lastNotice){
+    new Notification("EVOLV",{body:r.msg});
+    lastNotice=key;
    }
   }
- }
+ });
 }
 setInterval(checkReminders,20000);
 
 $("exportData").onclick=()=>{
  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob);
  const a=document.createElement("a");
- a.href=URL.createObjectURL(blob);
- a.download="my-better-self-data.json";
- a.click();
- URL.revokeObjectURL(a.href);
+ a.href=url;a.download="evolv-backup.json";a.click();
+ URL.revokeObjectURL(url);
+};
+
+$("importData").onclick=()=>{
+ const file=$("importFile").files[0];
+ if(!file){alert("Choose a backup file first.");return;}
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const restored=JSON.parse(reader.result);
+   if(!restored.budget||!Array.isArray(restored.expenses)){
+    throw new Error("Invalid backup");
+   }
+   if(!confirm("Replace your current app data with this backup?"))return;
+   data={...defaults,...restored};
+   data.budget={...defaults.budget,...restored.budget};
+   data.goal={...defaults.goal,...(restored.goal||{})};
+   save();location.reload();
+  }catch(e){alert("Could not restore this backup.");}
+ };
+ reader.readAsText(file);
 };
 
 $("clearData").onclick=()=>{
- if(confirm("Permanently delete all My Better Self data from this browser?")){
+ if(confirm("Delete ALL EVOLV data from this browser? Export a backup first if needed.")){
   localStorage.removeItem("mbs-data");
-  localStorage.removeItem("myBetterSelfCountry");
-  localStorage.removeItem("myBetterSelfCurrency");
   location.reload();
  }
 };
 
+fillBudget();
 renderHabits();
-$("weeklyNote").value=data.note||"";
+renderExpenses();
+renderSavings();
+renderGoal();
+updateDashboard();
 save();
-loadExchangeRates();
 
 if("serviceWorker"in navigator&&location.protocol.startsWith("http")){
  navigator.serviceWorker.register("sw.js").catch(()=>{});
