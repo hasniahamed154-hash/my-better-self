@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -153,22 +152,17 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   <button class="primary" id="saveBudget" style="margin-top:12px">Save salary plan</button>
  </div>
 
- <!-- REMITTANCE EXCHANGE -->
  <div class="card" style="background:#f0f7f2">
   <h2>🇱🇰 Remittance & Currency Exchange</h2>
   <p class="muted">Calculate the estimated Sri Lankan rupees your family may receive.</p>
-
   <label>Amount you are sending (AED)</label>
   <input type="number" id="remitAmount" min="0" step="0.01" placeholder="Example: 600">
-
   <label>Exchange rate (1 AED = LKR)</label>
   <input type="number" id="exchangeRate" min="0" step="0.01" placeholder="Enter rate">
-
   <div style="margin-top:14px">
    <label>Estimated amount in Sri Lankan rupees</label>
    <div class="exchange-result" id="lkrResult">LKR 0.00</div>
   </div>
-
   <button class="primary" id="updateExchange" style="margin-top:14px">Get latest online rate</button>
   <p id="exchangeStatus" class="muted">Enter your transfer amount and exchange rate. The calculator updates automatically.</p>
   <p class="muted">The online rate is a reference rate. Your exchange company may offer a different rate or charge fees.</p>
@@ -279,13 +273,13 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
 <section class="panel" id="settings">
  <div class="card">
   <h2>🔔 Reminders</h2>
-  <p class="muted">Allow notifications for reminders while the app is open.</p>
+  <p class="muted">Notifications can be checked while EVOLV is open. This simple version cannot guarantee alerts when the browser is closed.</p>
   <button class="primary" id="enableNotifications">Enable notifications</button>
   <p id="notificationStatus" class="muted"></p>
  </div>
  <div class="card">
   <h2>🔐 Your data</h2>
-  <p class="muted">Your information is stored in this browser on this device. Export a backup regularly.</p>
+  <p class="muted">Your information is stored in this browser on this device using Local Storage. It is not synced to Firebase or other devices in this version. Export a backup regularly.</p>
   <button class="secondary" id="exportData">Export my data</button>
   <label>Restore a previous backup</label>
   <input type="file" id="importFile" accept=".json,application/json">
@@ -295,7 +289,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
  </div>
  <div class="card">
   <h2>About EVOLV</h2>
-  <p class="muted">EVOLV · Be a Better You · Version 4.0</p>
+  <p class="muted">EVOLV · Be a Better You · Version 4.1</p>
   <p class="muted">Health • Money • Confidence • Growth</p>
  </div>
 </section>
@@ -324,21 +318,38 @@ const defaults={
  habits:{},note:""
 };
 
+function normalizeData(raw){
+ const value=raw&&typeof raw==="object"?raw:{};
+ const clean={...defaults,...value};
+ clean.budget={...defaults.budget,...(value.budget||{})};
+ clean.goal={...defaults.goal,...(value.goal||{})};
+ clean.expenses=Array.isArray(value.expenses)?value.expenses.filter(e=>
+  e&&Number.isFinite(Number(e.amount))&&Number(e.amount)>0&&
+  /^\d{4}-\d{2}-\d{2}$/.test(String(e.date||""))
+ ).map((e,i)=>({
+  id:e.id??("expense-"+i+"-"+Date.now()),amount:Number(e.amount),
+  category:String(e.category||"Other"),note:String(e.note||""),date:String(e.date)
+ })): [];
+ clean.savingsHistory=Array.isArray(value.savingsHistory)?value.savingsHistory:[];
+ clean.habits=value.habits&&typeof value.habits==="object"?value.habits:{};
+ clean.savingsWallet=Math.max(0,Number(value.savingsWallet)||0);
+ clean.paydayDay=Math.min(31,Math.max(1,Math.trunc(Number(value.paydayDay)||15)));
+ return clean;
+}
 let data;
 try{
- const old=JSON.parse(localStorage.getItem("mbs-data")||"null");
- data={...defaults,...(old||{})};
- data.budget={...defaults.budget,...(data.budget||{})};
- data.goal={...defaults.goal,...(data.goal||{})};
- data.expenses=Array.isArray(data.expenses)?data.expenses:[];
- data.savingsHistory=Array.isArray(data.savingsHistory)?data.savingsHistory:[];
- data.habits=data.habits||{};
+ data=normalizeData(JSON.parse(localStorage.getItem("mbs-data")||"null"));
 }catch(e){
- data=JSON.parse(JSON.stringify(defaults));
+ data=normalizeData(null);
 }
-
 function save(){
- localStorage.setItem("mbs-data",JSON.stringify(data));
+ try{
+  localStorage.setItem("mbs-data",JSON.stringify(data));
+  return true;
+ }catch(error){
+  console.error("EVOLV could not save data:",error);
+  return false;
+ }
 }
 
 $("todayDate").textContent=new Date().toLocaleDateString(undefined,{
@@ -389,16 +400,18 @@ function renderHabits(){
  updateDashboard();
 }
 
+function paydayDate(year,month,requestedDay){
+ const lastDay=new Date(year,month+1,0).getDate();
+ return new Date(year,month,Math.min(requestedDay,lastDay));
+}
 function getCycle(){
  const now=new Date();
+ const todayDate=new Date(now.getFullYear(),now.getMonth(),now.getDate());
  const day=Math.min(31,Math.max(1,Number(data.paydayDay)||15));
- let start=new Date(now.getFullYear(),now.getMonth(),day);
- if(now<start)start=new Date(now.getFullYear(),now.getMonth()-1,day);
- const next=new Date(start.getFullYear(),start.getMonth()+1,day);
- const remaining=Math.max(1,Math.ceil(
-  (new Date(next.getFullYear(),next.getMonth(),next.getDate())-
-   new Date(now.getFullYear(),now.getMonth(),now.getDate()))/86400000
- ));
+ let start=paydayDate(now.getFullYear(),now.getMonth(),day);
+ if(todayDate<start)start=paydayDate(now.getFullYear(),now.getMonth()-1,day);
+ const next=paydayDate(start.getFullYear(),start.getMonth()+1,day);
+ const remaining=Math.max(1,Math.ceil((next-todayDate)/86400000));
  return {start:localDate(start),next:localDate(next),remaining};
 }
 
@@ -409,30 +422,25 @@ function cycleExpenses(){
 
 function calculateMoney(){
  const b=data.budget;
- const salary=Number(b.salary)||0;
- const family=Number(b.family)||0;
- const food=Number(b.food)||0;
- const wifi=Number(b.wifi)||0;
- const advance=Number(b.advance)||0;
- const fixed=Number(b.fixed)||0;
+ const salary=Math.max(0,Number(b.salary)||0);
+ const family=Math.max(0,Number(b.family)||0);
+ const food=Math.max(0,Number(b.food)||0);
+ const wifi=Math.max(0,Number(b.wifi)||0);
+ const advance=Math.max(0,Number(b.advance)||0);
+ const fixed=Math.max(0,Number(b.fixed)||0);
  const expenses=cycleExpenses();
-
+ const totalSpent=expenses.reduce((sum,e)=>sum+Math.max(0,Number(e.amount)||0),0);
  const foodSpent=expenses.filter(e=>e.category==="Food")
-  .reduce((s,e)=>s+Number(e.amount),0);
-
- const otherSpent=expenses.filter(e=>e.category!=="Food")
-  .reduce((s,e)=>s+Number(e.amount),0);
-
+  .reduce((sum,e)=>sum+Math.max(0,Number(e.amount)||0),0);
+ const otherSpent=totalSpent-foodSpent;
  const commitments=family+wifi+advance+fixed;
+ const cashRemaining=salary-commitments-totalSpent;
  const foodRemaining=food-foodSpent;
- const available=salary-commitments-food-otherSpent;
- const daily=available>0?available/getCycle().remaining:0;
- const forecast=salary-commitments-foodSpent-otherSpent;
-
- return {
-  salary,commitments,food,foodSpent,otherSpent,
-  available,foodRemaining,daily,forecast,expenses
- };
+ const foodReserve=Math.max(0,foodRemaining);
+ const available=cashRemaining-foodReserve;
+ const daily=Math.max(0,available)/getCycle().remaining;
+ return {salary,commitments,food,foodSpent,otherSpent,totalSpent,
+  cashRemaining,available,foodRemaining,daily,forecast:cashRemaining,expenses};
 }
 
 function updateDashboard(){
@@ -451,24 +459,27 @@ function updateDashboard(){
  const c=getCycle();
 
  $("salaryMetric").textContent=money(m.salary);
- $("leftMetric").textContent=money(m.forecast);
+ $("leftMetric").textContent=money(m.cashRemaining);
+ $("leftMetric").className=m.cashRemaining<0?"red":"green";
  $("spentMetric").textContent=money(spentMonth);
 
  $("daysLeft").textContent=c.remaining+" days";
  $("dailyLimit").textContent=money(m.daily);
  $("spendingBalance").textContent=money(m.available);
  $("foodRemaining").textContent=money(m.foodRemaining);
- $("savingsForecast").textContent=money(Math.max(0,m.forecast));
+ $("savingsForecast").textContent=money(Math.max(0,m.cashRemaining));
  $("actualSavings").textContent=money(data.savingsWallet);
  $("walletBalance").textContent=money(data.savingsWallet);
 
  const used=m.salary>0?Math.max(0,Math.min(100,
-  (m.salary-m.forecast)/m.salary*100)):0;
+  (m.salary-m.cashRemaining)/m.salary*100)):0;
  $("moneyProgress").style.width=used+"%";
 
  let warning;
- if(m.available<0){
-  warning="⚠️ You have exceeded your planned flexible spending. Avoid unnecessary purchases.";
+ if(m.cashRemaining<0){
+  warning="⚠️ Your recorded spending and commitments exceed your salary. Review your plan before spending more.";
+ }else if(m.available<0){
+  warning="⚠️ Your remaining cash is below the food budget you still need to reserve. Avoid unnecessary purchases.";
  }else if(m.daily<5){
   warning="⚠️ Your daily allowance is low. Reduce spending where possible.";
  }else{
@@ -512,7 +523,11 @@ $("saveBudget").onclick=()=>{
   return;
  }
  data.paydayDay=day;
- save();updateDashboard();
+ if(!save()){
+  alert("Your browser could not save the plan. Please free some browser storage and try again.");
+  return;
+ }
+ updateDashboard();
  alert("Your salary plan has been saved!");
 };
 
@@ -582,7 +597,7 @@ function renderExpenses(){
    <div><b>${escapeHTML(e.category)}</b>
    <div class="muted">${escapeHTML(e.note||"No description")} · ${e.date}</div></div>
    <div class="row"><span class="amount">${money(e.amount)}</span>
-   <button class="danger" data-delete="${e.id}">×</button></div>
+   <button class="danger" data-delete="${escapeHTML(String(e.id))}" aria-label="Delete expense">×</button></div>
   </div>`).join(""):'<div class="empty">No expenses recorded yet.</div>';
 
  $("expenseList").querySelectorAll("[data-delete]").forEach(btn=>{
@@ -634,7 +649,7 @@ $("addSaving").onclick=()=>{
   alert("Enter a valid savings amount.");
   return;
  }
- data.savingsWallet+=amount;
+ data.savingsWallet=Math.max(0,Number(data.savingsWallet)||0)+amount;
  data.savingsHistory.unshift({amount,type:"Deposit",date:today()});
  $("saveAmount").value="";
  save();renderSavings();updateDashboard();
@@ -642,7 +657,7 @@ $("addSaving").onclick=()=>{
 
 $("withdrawSaving").onclick=()=>{
  const amount=Number($("withdrawAmount").value);
- if(!Number.isFinite(amount)||amount<=0||amount>data.savingsWallet){
+ if(!Number.isFinite(amount)||amount<=0||amount>(Number(data.savingsWallet)||0)){
   alert("Enter a valid amount within your savings balance.");
   return;
  }
@@ -739,14 +754,18 @@ document.querySelectorAll("nav button").forEach(btn=>{
 });
 
 $("enableNotifications").onclick=async()=>{
- if(!("Notification"in window)){
-  $("notificationStatus").textContent="Notifications not supported.";
+ if(!("Notification" in window)){
+  $("notificationStatus").textContent="Notifications are not supported by this browser.";
   return;
  }
- const permission=await Notification.requestPermission();
- $("notificationStatus").textContent=permission==="granted"
- ?"Notifications enabled while the app is open."
- :"Permission was not granted.";
+ try{
+  const permission=await Notification.requestPermission();
+  $("notificationStatus").textContent=permission==="granted"
+   ?"Permission granted. Keep EVOLV open for its reminder checks."
+   :"Permission was not granted. You can still use the checklist.";
+ }catch(error){
+  $("notificationStatus").textContent="Could not request notification permission in this browser.";
+ }
 };
 
 const reminders=[
@@ -786,14 +805,18 @@ $("importData").onclick=()=>{
  reader.onload=()=>{
   try{
    const restored=JSON.parse(reader.result);
-   if(!restored.budget||!Array.isArray(restored.expenses)){
+   if(!restored||typeof restored!=="object"||
+      !restored.budget||!Array.isArray(restored.expenses)){
     throw new Error("Invalid backup");
    }
    if(!confirm("Replace your current app data with this backup?"))return;
-   data={...defaults,...restored};
-   data.budget={...defaults.budget,...restored.budget};
-   data.goal={...defaults.goal,...(restored.goal||{})};
-   save();location.reload();
+   const previous=data;
+   data=normalizeData(restored);
+   if(!save()){
+    data=previous;
+    throw new Error("Could not save restored data");
+   }
+   location.reload();
   }catch(e){alert("Could not restore this backup.");}
  };
  reader.readAsText(file);
