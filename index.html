@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -87,6 +88,33 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
 .prayer-time small{color:var(--muted)}
 .prayer-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .prayer-actions button{flex:1;min-width:130px}
+
+/* EVOLV SOUL - Spotify-inspired nasheed player */
+.soul-hero{background:linear-gradient(135deg,#102c22,#176b4d 58%,#b18b45);color:#fff;border-radius:18px;padding:20px;overflow:hidden;position:relative}
+.soul-hero:after{content:"☾";position:absolute;right:18px;top:-24px;font-size:118px;color:#ffffff18;line-height:1}
+.soul-hero h2{font-size:25px;margin:5px 0;color:#fff}
+.soul-hero p{color:#e1eee6;margin:0;font-size:13px}
+.soul-cover{width:88px;height:88px;border-radius:15px;background:linear-gradient(145deg,#d5b66a,#244d3c 65%,#10271f);display:grid;place-items:center;font-size:39px;box-shadow:0 8px 22px #10271f35;flex-shrink:0}
+.soul-now{display:flex;align-items:center;gap:14px;margin:14px 0}
+.soul-track-title{font-weight:800;font-size:16px;overflow-wrap:anywhere}
+.soul-track-sub{font-size:12px;color:var(--muted)}
+.soul-controls{display:flex;align-items:center;justify-content:center;gap:22px;margin:14px 0}
+.soul-controls button{border:0;background:transparent;color:var(--g);font-size:22px;padding:7px}
+.soul-controls .soul-play{background:var(--g);color:white;width:52px;height:52px;border-radius:50%;font-size:23px}
+.soul-progress{width:100%;accent-color:var(--g)}
+.soul-times{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+.soul-list{display:flex;flex-direction:column;gap:7px;margin-top:10px}
+.soul-item{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.soul-item.active{background:#edf7f0;border-color:#9bc9ad}
+.soul-item-main{flex:1;min-width:0;cursor:pointer}
+.soul-item-main strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+.soul-item-main small{color:var(--muted);font-size:11px}
+.soul-item button{border:0;background:transparent;color:var(--g);font-size:18px;padding:5px}
+.soul-tools{display:flex;gap:8px;flex-wrap:wrap}
+.soul-tools button{flex:1;min-width:120px}
+.soul-empty{padding:16px;border:1px dashed #bfd4c5;border-radius:12px;color:var(--muted);font-size:13px;text-align:center}
+@media(prefers-color-scheme:dark){.soul-item{background:#fff}.soul-item-main strong{color:#17251e}}
+
 @media(min-width:650px){
 .quick{grid-template-columns:repeat(4,1fr)}
 .wrap{padding-left:22px;padding-right:22px}
@@ -122,6 +150,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
  <button data-tab="money">💰 My Money</button>
  <button data-tab="health">Health & Beauty</button>
  <button data-tab="food">Food Plan</button>
+ <button data-tab="nasheeds">🎧 Nasheeds</button>
  <button data-tab="settings">Settings</button>
 </nav>
 
@@ -186,17 +215,22 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   <button class="primary" id="saveBudget" style="margin-top:12px">Save salary plan</button>
  </div>
 
+ <!-- REMITTANCE EXCHANGE -->
  <div class="card" style="background:#f0f7f2">
   <h2>🇱🇰 Remittance & Currency Exchange</h2>
   <p class="muted">Calculate the estimated Sri Lankan rupees your family may receive.</p>
+
   <label>Amount you are sending (AED)</label>
   <input type="number" id="remitAmount" min="0" step="0.01" placeholder="Example: 600">
+
   <label>Exchange rate (1 AED = LKR)</label>
   <input type="number" id="exchangeRate" min="0" step="0.01" placeholder="Enter rate">
+
   <div style="margin-top:14px">
    <label>Estimated amount in Sri Lankan rupees</label>
    <div class="exchange-result" id="lkrResult">LKR 0.00</div>
   </div>
+
   <button class="primary" id="updateExchange" style="margin-top:14px">Get latest online rate</button>
   <p id="exchangeStatus" class="muted">Enter your transfer amount and exchange rate. The calculator updates automatically.</p>
   <p class="muted">The online rate is a reference rate. Your exchange company may offer a different rate or charge fees.</p>
@@ -222,8 +256,13 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   <input type="number" id="expenseAmount" min="0.01" step="0.01" placeholder="Example: 5">
   <label>Category</label>
   <select id="expenseCategory">
-   <option>Food</option><option>Transport</option><option>Personal care</option>
-   <option>Clothes</option><option>Phone / Internet</option><option>Family</option><option>Other</option>
+   <option>Food</option>
+   <option>Transport</option>
+   <option>Personal care</option>
+   <option>Clothes</option>
+   <option>Phone / Internet</option>
+   <option>Family</option>
+   <option>Other</option>
   </select>
   <label>Description</label>
   <input id="expenseNote" placeholder="What did you buy?">
@@ -265,9 +304,55 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   <p class="muted">Your expenses grouped by category this month.</p>
   <div id="categoryReport"></div>
   <div class="row" style="margin-top:14px">
-   <span>This month total</span><strong id="reportTotal">AED 0</strong>
+   <span>This month total</span>
+   <strong id="reportTotal">AED 0</strong>
   </div>
  </div>
+</section>
+
+<section class="panel" id="nasheeds">
+ <div class="card" style="padding:12px">
+  <div class="soul-hero">
+   <div style="font-size:11px;letter-spacing:2px;opacity:.85">EVOLV SOUL · NASHEEDS</div>
+   <h2>Peace for your heart.</h2>
+   <p>Your personal Islamic audio space</p>
+  </div>
+  <div class="soul-now">
+   <div class="soul-cover">☾</div>
+   <div style="min-width:0;flex:1">
+    <div class="muted">NOW PLAYING</div>
+    <div class="soul-track-title" id="soulNowTitle">Choose a nasheed</div>
+    <div class="soul-track-sub" id="soulNowArtist">Your personal library</div>
+   </div>
+   <button id="soulNowFav" title="Favourite" aria-label="Favourite" style="border:0;background:transparent;color:var(--g);font-size:23px">♡</button>
+  </div>
+  <audio id="soulAudio" preload="metadata"></audio>
+  <input class="soul-progress" id="soulSeek" type="range" min="0" max="1000" value="0" aria-label="Track progress">
+  <div class="soul-times"><span id="soulCurrentTime">0:00</span><span id="soulDuration">0:00</span></div>
+  <div class="soul-controls">
+   <button id="soulShuffle" title="Shuffle" aria-label="Shuffle">🔀</button>
+   <button id="soulPrevious" title="Previous" aria-label="Previous">⏮</button>
+   <button class="soul-play" id="soulPlay" title="Play" aria-label="Play">▶</button>
+   <button id="soulNext" title="Next" aria-label="Next">⏭</button>
+   <button id="soulRepeat" title="Repeat one" aria-label="Repeat one">↻</button>
+  </div>
+  <div class="soul-tools">
+   <button class="primary" id="soulUpload">＋ Add MP3 / audio</button>
+   <button class="secondary" id="soulOnline">Listen to Al Muqit online ↗</button>
+  </div>
+  <input id="soulFiles" type="file" accept="audio/*,.mp3,.m4a,.wav,.ogg" multiple hidden>
+  <p class="muted" id="soulStatus" aria-live="polite">Your uploaded tracks stay in this browser on this device.</p>
+ </div>
+ <div class="card">
+  <div class="row"><h2>Al Muqit collection</h2><span class="pill">Your library</span></div>
+  <input id="soulSearch" placeholder="Search your nasheeds..." aria-label="Search nasheeds">
+  <div class="row" style="margin-top:12px;flex-wrap:wrap">
+   <button class="secondary" id="soulAll">All tracks</button>
+   <button class="secondary" id="soulFavourites">♥ Favourites</button>
+  </div>
+  <div class="soul-list" id="soulList"><div class="soul-empty">Your library is empty. Tap “Add MP3 / audio” to add nasheeds you have permission to use.</div></div>
+ </div>
+ <div class="notice">Online listening opens YouTube search results for Muhammad Al Muqit. Track playback inside this player uses audio files you add yourself. Please use audio you own or have permission to play. Uploaded audio is stored only in this browser; clearing browser data can remove it.</div>
 </section>
 
 <section class="panel" id="health">
@@ -305,7 +390,6 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   <button class="primary" id="enableNotifications">Enable notifications</button>
   <p id="notificationStatus" class="muted"></p>
  </div>
-
  <div class="card">
   <h2>🕌 Prayer alert settings</h2>
   <p class="muted">Use your phone's location to calculate prayer times. Choose the short Adhan audio file you want EVOLV to play.</p>
@@ -324,7 +408,6 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   </div>
   <p class="notice">Important: notifications and audio are checked while EVOLV is running. A normal website/PWA cannot reliably play Adhan when fully closed or guarantee background alerts. For dependable closed-app alerts, a push service or native Android app is needed. Uploaded audio is stored in this browser and may use storage space.</p>
  </div>
-
  <div class="card">
   <h2>🔐 Your data</h2>
   <p class="muted">Your information is stored in this browser on this device using Local Storage. It is not synced to Firebase or other devices in this version. Export a backup regularly.</p>
@@ -335,10 +418,9 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   <p></p>
   <button class="danger" id="clearData">Delete all app data</button>
  </div>
-
  <div class="card">
   <h2>About EVOLV</h2>
-  <p class="muted">EVOLV · Be a Better You · Version 4.2</p>
+  <p class="muted">EVOLV · Be a Better You · Version 4.3 SOUL</p>
   <p class="muted">Health • Money • Confidence • Growth</p>
  </div>
 </section>
@@ -364,12 +446,7 @@ const defaults={
  savingsWallet:0,
  savingsHistory:[],
  goal:{name:"Emergency savings",target:0,saved:0},
- habits:{},note:"",
- prayer:{
-  latitude:null,longitude:null,locationName:"",
-  school:0,alertsEnabled:true,audioEnabled:true,
-  audioData:"",audioName:""
- }
+ habits:{},note:"",prayer:{latitude:null,longitude:null,locationName:"",school:0,alertsEnabled:true,audioEnabled:true,audioData:"",audioName:""}
 };
 
 function normalizeData(raw){
@@ -394,14 +471,12 @@ function normalizeData(raw){
  clean.paydayDay=Math.min(31,Math.max(1,Math.trunc(Number(value.paydayDay)||15)));
  return clean;
 }
-
 let data;
 try{
  data=normalizeData(JSON.parse(localStorage.getItem("mbs-data")||"null"));
 }catch(e){
  data=normalizeData(null);
 }
-
 function save(){
  try{
   localStorage.setItem("mbs-data",JSON.stringify(data));
@@ -464,7 +539,6 @@ function paydayDate(year,month,requestedDay){
  const lastDay=new Date(year,month+1,0).getDate();
  return new Date(year,month,Math.min(requestedDay,lastDay));
 }
-
 function getCycle(){
  const now=new Date();
  const todayDate=new Date(now.getFullYear(),now.getMonth(),now.getDate());
@@ -621,18 +695,23 @@ $("updateExchange").onclick=async()=>{
  const button=$("updateExchange");
  button.disabled=true;
  button.textContent="Getting rate...";
+
  $("exchangeStatus").textContent="Connecting to exchange-rate service...";
  try{
   const response=await fetch("https://open.er-api.com/v6/latest/AED");
   if(!response.ok)throw new Error("Rate unavailable");
+
   const result=await response.json();
   const rate=Number(result.rates?.LKR);
   if(!rate)throw new Error("Rate unavailable");
+
   $("exchangeRate").value=rate.toFixed(2);
   calculateExchange();
+
   const updated=result.time_last_update_utc
    ? " Rate data: "+result.time_last_update_utc
    : "";
+
   $("exchangeStatus").textContent=
    "Reference rate updated successfully."+updated+
    " Check your exchange provider's actual rate and fees.";
@@ -816,7 +895,6 @@ const reminders=[
  {h:22,m:0,msg:"Record today's expenses and prepare for tomorrow."}
 ];
 let lastNotice="";
-
 function checkReminders(){
  checkPrayerAlerts();
  if(!("Notification"in window)||Notification.permission!=="granted")return;
@@ -844,18 +922,13 @@ function prayerClock(value){
  const match=String(value||"").match(/(\d{1,2}):(\d{2})/);
  return match?String(match[1]).padStart(2,"0")+":"+match[2]:"--:--";
 }
-
 function setPrayerStatus(message){
  if($("prayerLocationStatus"))$("prayerLocationStatus").textContent=message;
 }
-
 function renderPrayerTimes(){
  const grid=$("prayerTimesGrid");
  if(!grid)return;
- if(!prayerTimesToday){
-  grid.innerHTML='<div class="empty">Prayer times are not loaded yet. Tap “Use phone location” in Settings.</div>';
-  return;
- }
+ if(!prayerTimesToday){grid.innerHTML='<div class="empty">Prayer times are not loaded yet. Tap “Use phone location” in Settings.</div>';return;}
  const now=new Date();
  const current=String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0");
  let nextName="Tomorrow's Fajr",nextTime="";
@@ -879,8 +952,7 @@ async function loadPrayerTimes(){
  if(!navigator.geolocation){
   $("prayerLocationLabel").textContent="Location unavailable";
   setPrayerStatus("This browser does not support location services.");
-  prayerFetchBusy=false;
-  return;
+  prayerFetchBusy=false;return;
  }
  navigator.geolocation.getCurrentPosition(async position=>{
   const lat=position.coords.latitude,lon=position.coords.longitude;
@@ -903,9 +975,7 @@ async function loadPrayerTimes(){
   }catch(error){
    $("prayerLocationLabel").textContent="Could not load times";
    setPrayerStatus("Could not load prayer times. Check your internet and refresh.");
-  }finally{
-   prayerFetchBusy=false;
-  }
+  }finally{prayerFetchBusy=false;}
  },error=>{
   $("prayerLocationLabel").textContent="Location permission needed";
   setPrayerStatus(error.code===1?"Location permission denied. Allow location for this site in browser settings.":"Could not get location. Check phone location services and try again.");
@@ -922,10 +992,7 @@ function syncPrayerSettings(){
 }
 
 function playShortAdhan(){
- if(!data.prayer.audioData){
-  alert("Please upload your short Adhan audio in Settings first.");
-  return false;
- }
+ if(!data.prayer.audioData){alert("Please upload your short Adhan audio in Settings first.");return false;}
  try{
   if(prayerAudioObject){prayerAudioObject.pause();prayerAudioObject=null;}
   prayerAudioObject=new Audio(data.prayer.audioData);
@@ -934,38 +1001,24 @@ function playShortAdhan(){
    setPrayerStatus("Audio playback was blocked. Tap Test audio once, then try again.");
   });
   return true;
- }catch(error){
-  return false;
- }
+ }catch(error){return false;}
 }
 
 $("requestPrayerLocation").onclick=loadPrayerTimes;
 $("refreshPrayerTimes").onclick=loadPrayerTimes;
-
 $("savePrayerSettings").onclick=()=>{
  data.prayer.school=Number($("asrSchool").value)===1?1:0;
  data.prayer.alertsEnabled=$("prayerAlertsEnabled").checked;
  data.prayer.audioEnabled=$("adhanAudioEnabled").checked;
- if(!save()){
-  alert("Could not save settings. Browser storage may be full.");
-  return;
- }
+ if(!save()){alert("Could not save settings. Browser storage may be full.");return;}
  alert("Prayer settings saved.");
  if(data.prayer.latitude!==null)loadPrayerTimes();
 };
-
 $("adhanFile").onchange=()=>{
  const file=$("adhanFile").files[0];
  if(!file)return;
- if(!file.type.startsWith("audio/")){
-  alert("Please select an audio file.");
-  return;
- }
- if(file.size>2500000){
-  alert("Please choose a short audio file under 2.5 MB to protect app storage.");
-  $("adhanFile").value="";
-  return;
- }
+ if(!file.type.startsWith("audio/")){alert("Please select an audio file.");return;}
+ if(file.size>2500000){alert("Please choose a short audio file under 2.5 MB to protect app storage.");$("adhanFile").value="";return;}
  const reader=new FileReader();
  reader.onload=()=>{
   data.prayer.audioData=String(reader.result||"");
@@ -973,14 +1026,11 @@ $("adhanFile").onchange=()=>{
   if(save()){
    $("adhanFileStatus").textContent="Selected: "+file.name;
    alert("Adhan audio saved on this device. Tap Test audio to check it.");
-  }else{
-   alert("Could not save audio. Try a smaller file.");
-  }
+  }else alert("Could not save audio. Try a smaller file.");
  };
  reader.onerror=()=>alert("Could not read this audio file.");
  reader.readAsDataURL(file);
 };
-
 $("testAdhanHome").onclick=playShortAdhan;
 $("testAdhanSettings").onclick=playShortAdhan;
 
@@ -994,26 +1044,20 @@ function checkPrayerAlerts(){
   if(current===prayerTime&&prayerLastAlert!==key){
    prayerLastAlert=key;
    if("Notification" in window&&Notification.permission==="granted"){
-    try{
-     new Notification("EVOLV · "+name,{body:"It is time for "+name+" prayer."});
-    }catch(e){}
+    try{new Notification("EVOLV · "+name,{body:"It is time for "+name+" prayer."});}catch(e){}
    }
    if(data.prayer.audioEnabled&&data.prayer.audioData)playShortAdhan();
   }
  }
 }
-
 $("enableNotifications").onclick=async()=>{
  if(!("Notification" in window)){
-  $("notificationStatus").textContent="Notifications are not supported by this browser.";
-  return;
+  $("notificationStatus").textContent="Notifications are not supported by this browser.";return;
  }
  try{
   const permission=await Notification.requestPermission();
   $("notificationStatus").textContent=permission==="granted"?"Permission granted. Keep EVOLV open for reminder checks.":"Permission was not granted. You can still use the app.";
- }catch(error){
-  $("notificationStatus").textContent="Could not request notification permission.";
- }
+ }catch(error){$("notificationStatus").textContent="Could not request notification permission.";}
 };
 
 $("exportData").onclick=()=>{
@@ -1026,10 +1070,7 @@ $("exportData").onclick=()=>{
 
 $("importData").onclick=()=>{
  const file=$("importFile").files[0];
- if(!file){
-  alert("Choose a backup file first.");
-  return;
- }
+ if(!file){alert("Choose a backup file first.");return;}
  const reader=new FileReader();
  reader.onload=()=>{
   try{
@@ -1046,9 +1087,7 @@ $("importData").onclick=()=>{
     throw new Error("Could not save restored data");
    }
    location.reload();
-  }catch(e){
-   alert("Could not restore this backup.");
-  }
+  }catch(e){alert("Could not restore this backup.");}
  };
  reader.readAsText(file);
 };
@@ -1060,7 +1099,98 @@ $("clearData").onclick=()=>{
  }
 };
 
-// Initial setup
+
+// EVOLV SOUL: local nasheed library using IndexedDB (separate from existing EVOLV data)
+const soulDBName="evolv-soul-library-v1";
+const soulStoreName="tracks";
+let soulDB=null,soulTracks=[],soulCurrentId=null,soulObjectUrl=null,soulView="all",soulShuffle=false,soulRepeat=false;
+let soulFavs=[];
+try{soulFavs=JSON.parse(localStorage.getItem("evolv-soul-favourites-v1")||"[]");if(!Array.isArray(soulFavs))soulFavs=[];}catch(e){soulFavs=[];}
+function soulOpenDB(){return new Promise((resolve,reject)=>{
+ const request=indexedDB.open(soulDBName,1);
+ request.onupgradeneeded=()=>{const db=request.result;if(!db.objectStoreNames.contains(soulStoreName))db.createObjectStore(soulStoreName,{keyPath:"id"});};
+ request.onsuccess=()=>resolve(request.result);request.onerror=()=>reject(request.error);
+ });}
+function soulDBRequest(mode,action,value){return new Promise((resolve,reject)=>{
+ const tx=soulDB.transaction(soulStoreName,mode),store=tx.objectStore(soulStoreName);
+ let req=action==="getAll"?store.getAll():action==="put"?store.put(value):store.delete(value);
+ req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);
+ });}
+function soulTime(sec){if(!Number.isFinite(sec))return "0:00";const m=Math.floor(sec/60),s=Math.floor(sec%60);return m+":"+String(s).padStart(2,"0");}
+function soulStatus(msg){$("soulStatus").textContent=msg;}
+function soulCurrent(){return soulTracks.find(t=>t.id===soulCurrentId)||null;}
+function soulSaveFavs(){localStorage.setItem("evolv-soul-favourites-v1",JSON.stringify(soulFavs));}
+function soulRender(){
+ const q=$("soulSearch").value.trim().toLowerCase();
+ const rows=soulTracks.filter(t=>(soulView!=="favourites"||soulFavs.includes(t.id))&&(!q||t.name.toLowerCase().includes(q)));
+ $("soulList").innerHTML=rows.length?rows.map(t=>`<div class="soul-item ${t.id===soulCurrentId?"active":""}">
+  <button data-soul-play="${t.id}" aria-label="Play ${escapeHTML(t.name)}">${t.id===soulCurrentId&&!$("soulAudio").paused?"♫":"▶"}</button>
+  <div class="soul-item-main" data-soul-play="${t.id}"><strong>${escapeHTML(t.name)}</strong><small>${escapeHTML(t.artist||"My library")}</small></div>
+  <button data-soul-fav="${t.id}" aria-label="Toggle favourite">${soulFavs.includes(t.id)?"♥":"♡"}</button>
+  <button data-soul-delete="${t.id}" aria-label="Delete track">⋮</button>
+ </div>`).join(""):'<div class="soul-empty">'+(soulView==="favourites"?"No favourites yet.":"No tracks found. Add your audio files to start your collection.")+'</div>';
+ $("soulList").querySelectorAll("[data-soul-play]").forEach(el=>el.onclick=()=>soulPlayTrack(el.dataset.soulPlay));
+ $("soulList").querySelectorAll("[data-soul-fav]").forEach(el=>el.onclick=()=>soulToggleFav(el.dataset.soulFav));
+ $("soulList").querySelectorAll("[data-soul-delete]").forEach(el=>el.onclick=()=>soulDeleteTrack(el.dataset.soulDelete));
+ const current=soulCurrent();$("soulNowTitle").textContent=current?current.name:"Choose a nasheed";$("soulNowArtist").textContent=current?(current.artist||"My library"):"Your personal library";
+ $("soulNowFav").textContent=current&&soulFavs.includes(current.id)?"♥":"♡";
+ $("soulNowFav").disabled=!current;
+}
+async function soulPlayTrack(id){
+ const track=soulTracks.find(t=>t.id===id);if(!track)return;
+ try{
+  const fresh=await soulDBRequest("readonly","getAll");const record=fresh.find(t=>t.id===id);if(!record)throw new Error("Track not found");
+  const audio=$("soulAudio");if(soulObjectUrl)URL.revokeObjectURL(soulObjectUrl);
+  soulObjectUrl=URL.createObjectURL(record.blob);audio.src=soulObjectUrl;soulCurrentId=id;soulRender();
+  await audio.play();$("soulPlay").textContent="Ⅱ";soulStatus("Playing: "+track.name);
+ }catch(e){soulStatus("Could not play this track. Try selecting it again.");}
+}
+function soulToggleFav(id){soulFavs=soulFavs.includes(id)?soulFavs.filter(x=>x!==id):[...soulFavs,id];soulSaveFavs();soulRender();}
+async function soulDeleteTrack(id){
+ const t=soulTracks.find(x=>x.id===id);if(!t||!confirm("Remove “"+t.name+"” from your EVOLV library?"))return;
+ await soulDBRequest("readwrite","delete",id);soulTracks=soulTracks.filter(x=>x.id!==id);soulFavs=soulFavs.filter(x=>x!==id);soulSaveFavs();
+ if(soulCurrentId===id){$("soulAudio").pause();$("soulAudio").removeAttribute("src");if(soulObjectUrl)URL.revokeObjectURL(soulObjectUrl);soulObjectUrl=null;soulCurrentId=null;$("soulPlay").textContent="▶";}
+ soulRender();soulStatus("Track removed from your library.");
+}
+async function soulAddFiles(files){
+ const accepted=Array.from(files||[]).filter(f=>f.type.startsWith("audio/")||/\.(mp3|m4a|wav|ogg|aac|flac)$/i.test(f.name));
+ if(!accepted.length){soulStatus("Choose audio files such as MP3, M4A, WAV or OGG.");return;}
+ let added=0;
+ for(const file of accepted){
+  const id="soul-"+Date.now()+"-"+Math.random().toString(36).slice(2);
+  try{await soulDBRequest("readwrite","put",{id,name:file.name.replace(/\.[^.]+$/, ""),artist:"My library",blob:file,addedAt:Date.now()});added++;}catch(e){soulStatus("Storage is full or this audio format could not be saved. Try smaller files.");break;}
+ }
+ soulTracks=await soulDBRequest("readonly","getAll");soulTracks.sort((a,b)=>a.addedAt-b.addedAt);soulRender();
+ if(added)soulStatus(added+" audio file(s) added to your library on this device.");
+}
+function soulStep(direction){
+ if(!soulTracks.length)return;
+ let i=soulTracks.findIndex(t=>t.id===soulCurrentId);if(i<0)i=direction>0?-1:0;
+ let next;
+ if(soulShuffle&&soulTracks.length>1){const options=soulTracks.filter(t=>t.id!==soulCurrentId);next=options[Math.floor(Math.random()*options.length)];}
+ else next=soulTracks[(i+direction+soulTracks.length)%soulTracks.length];
+ soulPlayTrack(next.id);
+}
+$("soulUpload").onclick=()=>$("soulFiles").click();
+$("soulFiles").onchange=async()=>{await soulAddFiles($("soulFiles").files);$("soulFiles").value="";};
+$("soulSearch").oninput=soulRender;
+$("soulAll").onclick=()=>{soulView="all";soulRender();};
+$("soulFavourites").onclick=()=>{soulView="favourites";soulRender();};
+$("soulOnline").onclick=()=>window.open("https://www.youtube.com/results?search_query=Muhammad+Al+Muqit+official+nasheed","_blank","noopener");
+$("soulNowFav").onclick=()=>{if(soulCurrentId)soulToggleFav(soulCurrentId);};
+$("soulPlay").onclick=async()=>{const a=$("soulAudio");if(!a.src){if(soulTracks.length)await soulPlayTrack(soulTracks[0].id);else soulStatus("Add audio files first, or use Listen to Al Muqit online.");return;}if(a.paused){try{await a.play();}catch(e){soulStatus("Tap play again to start audio.");}}else a.pause();};
+$("soulPrevious").onclick=()=>{const a=$("soulAudio");if(a.currentTime>3){a.currentTime=0;}else soulStep(-1);};
+$("soulNext").onclick=()=>soulStep(1);
+$("soulShuffle").onclick=()=>{soulShuffle=!soulShuffle;$("soulShuffle").style.opacity=soulShuffle?"1":".55";soulStatus(soulShuffle?"Shuffle is on.":"Shuffle is off.");};
+$("soulRepeat").onclick=()=>{soulRepeat=!soulRepeat;$("soulRepeat").style.opacity=soulRepeat?"1":".55";soulStatus(soulRepeat?"Repeat current track is on.":"Repeat is off.");};
+$("soulAudio").onplay=()=>{$("soulPlay").textContent="Ⅱ";soulRender();};
+$("soulAudio").onpause=()=>{$("soulPlay").textContent="▶";soulRender();};
+$("soulAudio").ontimeupdate=()=>{const a=$("soulAudio");$("soulCurrentTime").textContent=soulTime(a.currentTime);$("soulDuration").textContent=soulTime(a.duration);if(a.duration)$("soulSeek").value=Math.round(a.currentTime/a.duration*1000);};
+$("soulSeek").oninput=()=>{const a=$("soulAudio");if(a.duration)a.currentTime=a.duration*(Number($("soulSeek").value)/1000);};
+$("soulAudio").onended=()=>{if(soulRepeat){const a=$("soulAudio");a.currentTime=0;a.play();}else soulStep(1);};
+(async()=>{try{soulDB=await soulOpenDB();soulTracks=await soulDBRequest("readonly","getAll");soulTracks.sort((a,b)=>a.addedAt-b.addedAt);soulRender();soulStatus(soulTracks.length?`${soulTracks.length} track(s) saved on this device.`:"Add your own audio files to start your collection.");}catch(e){soulStatus("Your browser does not support the local audio library. You can still listen online.");}})();
+
+
 fillBudget();
 syncPrayerSettings();
 renderPrayerTimes();
@@ -1070,9 +1200,7 @@ renderExpenses();
 renderSavings();
 renderGoal();
 updateDashboard();
-
-// Load prayer times only after prayer variables are initialized.
-loadPrayerTimes();
+save();
 
 if("serviceWorker"in navigator&&location.protocol.startsWith("http")){
  navigator.serviceWorker.register("sw.js").catch(()=>{});
