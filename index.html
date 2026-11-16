@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en">
 <head>
@@ -124,6 +123,17 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
  <button data-tab="settings">Settings</button>
 </nav>
 <section class="panel active" id="home">
+ <div class="card" id="uaeJourneyCard" style="background:linear-gradient(135deg,#f0f7f2,#ffffff);border-color:#cfe3d5">
+  <div class="row"><h2>🇦🇪 My UAE Journey</h2><span class="pill">Auto-tracking</span></div>
+  <div class="grid2" style="margin-top:8px">
+   <div><div class="muted">Days in the UAE</div><div class="big-number" id="uaeDays">—</div></div>
+   <div><div class="muted">Time in the UAE</div><div class="big-number" id="uaeDuration">—</div></div>
+  </div>
+  <div class="progress"><span id="uaeProgress" style="width:0%"></span></div>
+  <div class="row"><span class="muted">Arrival date</span><strong id="uaeArrivalLabel">3 Aug 2026</strong></div>
+  <div class="row" style="margin-top:5px"><span class="muted">Next monthly milestone</span><strong id="uaeNextMilestone">—</strong></div>
+  <p class="muted" id="uaeJourneyNote">Your UAE journey updates automatically using today's date.</p>
+ </div>
  <div class="card">
   <div class="row"><h2>Today's habits</h2><span class="pill" id="habitPercent">0%</span></div>
   <div class="progress"><span id="habitBar"></span></div><div id="habitList"></div>
@@ -289,7 +299,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   <h2>🔐 Your data</h2><p class="muted">Your information is stored in this browser on this device using Local Storage. It is not synced to Firebase or other devices in this version. Export a backup regularly.</p>
   <button class="secondary" id="exportData">Export my data</button><label>Restore a previous backup</label><input type="file" id="importFile" accept=".json,application/json"><button class="secondary" id="importData" style="margin-top:10px">Restore backup</button><p></p><button class="danger" id="clearData">Delete all app data</button>
  </div>
- <div class="card"><h2>About EVOLV</h2><p class="muted">EVOLV · Be a Better You · Version 4.4 MONEY TRACKER</p><p class="muted">Health • Money • Confidence • Growth</p></div>
+ <div class="card"><h2>About EVOLV</h2><p class="muted">EVOLV · Be a Better You · Version 4.5 UAE JOURNEY TRACKER</p><p class="muted">Health • Money • Confidence • Growth</p></div>
 </section>
 <footer>Created & Developed by Faizal Hasni Ahamed · 2026</footer>
 </main>
@@ -300,9 +310,44 @@ const money=n=>"AED "+(Number(n)||0).toFixed(2);
 const today=()=>localDate(new Date());
 function localDate(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
 
+function dateFromISO(value){
+ const parts=String(value||"").split("-").map(Number);
+ return parts.length===3&&parts.every(Number.isFinite)?new Date(Date.UTC(parts[0],parts[1]-1,parts[2])):null;
+}
+function renderUAEJourney(){
+ const arrival=dateFromISO(data.uaeArrivalDate),now=dateFromISO(today());
+ if(!arrival||!now||arrival>now){
+  $("uaeDays").textContent="—";$("uaeDuration").textContent="Not started";
+  $("uaeArrivalLabel").textContent=data.uaeArrivalDate||"Not set";
+  $("uaeNextMilestone").textContent="—";
+  $("uaeJourneyNote").textContent="Arrival date is in the future or invalid. Check your saved arrival date.";
+  return;
+ }
+ const days=Math.floor((now-arrival)/86400000);
+ let months=(now.getUTCFullYear()-arrival.getUTCFullYear())*12+(now.getUTCMonth()-arrival.getUTCMonth());
+ const anniversary=new Date(Date.UTC(arrival.getUTCFullYear(),arrival.getUTCMonth()+months,arrival.getUTCDate()));
+ if(anniversary>now)months--;
+ const lastAnniversary=new Date(Date.UTC(arrival.getUTCFullYear(),arrival.getUTCMonth()+months,arrival.getUTCDate()));
+ const remainder=Math.floor((now-lastAnniversary)/86400000);
+ const years=Math.floor(months/12),remainingMonths=months%12;
+ const duration=[];
+ if(years)duration.push(years+" year"+(years===1?"":"s"));
+ if(remainingMonths)duration.push(remainingMonths+" month"+(remainingMonths===1?"":"s"));
+ if(remainder||!duration.length)duration.push(remainder+" day"+(remainder===1?"":"s"));
+ const nextDate=new Date(Date.UTC(arrival.getUTCFullYear(),arrival.getUTCMonth()+months+1,arrival.getUTCDate()));
+ const nextLabel=nextDate.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"});
+ $("uaeDays").textContent=days.toLocaleString()+" days";
+ $("uaeDuration").textContent=duration.join(", ");
+ $("uaeArrivalLabel").textContent=arrival.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric",timeZone:"UTC"});
+ $("uaeNextMilestone").textContent=nextLabel+" · "+Math.ceil((nextDate-now)/86400000)+" days";
+ $("uaeProgress").style.width=Math.min(100,(remainder/31)*100)+"%";
+ $("uaeJourneyNote").textContent="You've completed "+months+" full month"+(months===1?"":"s")+" in the UAE. The counter refreshes automatically each day.";
+}
+
+
 const defaults={
  budget:{salary:1200,family:700,food:230,wifi:20,advance:0,fixed:0},
- paydayDay:15,remitAmount:700,exchangeRate:90,expenses:[],
+ paydayDay:15,uaeArrivalDate:"2026-08-03",remitAmount:700,exchangeRate:90,expenses:[],
  debts:[],savingsWallet:0,savingsHistory:[],
  goal:{name:"Emergency savings",target:0,saved:0},
  habits:{},note:"",
@@ -334,6 +379,7 @@ function normalizeData(raw){
  clean.prayer.alertsEnabled=clean.prayer.alertsEnabled!==false;
  clean.prayer.audioEnabled=clean.prayer.audioEnabled!==false;
  clean.paydayDay=Math.min(31,Math.max(1,Math.trunc(Number(value.paydayDay)||15)));
+ clean.uaeArrivalDate=/^\d{4}-\d{2}-\d{2}$/.test(String(value.uaeArrivalDate||""))?String(value.uaeArrivalDate):"2026-08-03";
  return clean;
 }
 let data;
@@ -588,6 +634,7 @@ function checkReminders(){
  }});
 }
 setInterval(checkReminders,15000);
+setInterval(renderUAEJourney,60000);
 
 // PRAYER TIMES + SHORT ADHAN
 const prayerNames=["Fajr","Dhuhr","Asr","Maghrib","Isha"];
@@ -798,6 +845,7 @@ syncPrayerSettings();
 renderPrayerTimes();
 renderExchange();
 renderHabits();
+renderUAEJourney();
 renderExpenses();
 renderSavings();
 renderGoal();
