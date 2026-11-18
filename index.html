@@ -173,6 +173,20 @@ footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
   <button class="primary" id="saveBudget" style="margin-top:12px">Save salary plan</button>
  </div>
 
+ <div class="card" id="foodPaymentCard">
+  <div class="row"><h2>🍽️ Monthly Food Payment</h2><span class="pill" id="foodPaymentStatus">Not paid</span></div>
+  <p class="muted">Track your AED 230 monthly food payment. Each month is saved separately.</p>
+  <label>Payment month</label><input type="month" id="foodPaymentMonth">
+  <div class="grid2" style="margin-top:12px">
+   <div><label>Monthly amount</label><div class="big-number" id="foodPaymentAmount">AED 230.00</div></div>
+   <div><label>Amount remaining</label><div class="big-number" id="foodPaymentRemaining">AED 230.00</div></div>
+  </div>
+  <p class="muted" id="foodPaymentDate">No payment recorded for this month.</p>
+  <button class="primary" id="markFoodPaid" style="margin-top:8px">Mark AED 230 as paid</button>
+  <button class="secondary" id="undoFoodPaid" style="margin-top:8px;display:none">Undo payment</button>
+  <div id="foodPaymentHistory" style="margin-top:12px"></div>
+ </div>
+
  <div class="card" style="background:#f0f7f2">
   <h2>🇱🇰 Remittance & Currency Exchange</h2><p class="muted">Calculate the estimated Sri Lankan rupees your family may receive.</p>
   <label>Amount you are sending (AED)</label><input type="number" id="remitAmount" min="0" step="0.01" placeholder="Example: 600">
@@ -348,6 +362,7 @@ function renderUAEJourney(){
 const defaults={
  budget:{salary:1200,family:700,food:230,wifi:20,advance:0,fixed:0},
  paydayDay:15,uaeArrivalDate:"2026-08-03",remitAmount:700,exchangeRate:90,expenses:[],
+ foodPayments:{"2026-11":{amount:230,date:"2026-11-17"}},
  debts:[],savingsWallet:0,savingsHistory:[],
  goal:{name:"Emergency savings",target:0,saved:0},
  habits:{},note:"",
@@ -359,6 +374,7 @@ function normalizeData(raw){
  const clean={...defaults,...value};
  clean.budget={...defaults.budget,...(value.budget||{})};
  clean.goal={...defaults.goal,...(value.goal||{})};
+ clean.foodPayments={...defaults.foodPayments,...(value.foodPayments||{})};
  clean.expenses=Array.isArray(value.expenses)?value.expenses.filter(e=>e&&Number.isFinite(Number(e.amount))&&Number(e.amount)>0&&/^\d{4}-\d{2}-\d{2}$/.test(String(e.date||""))).map((e,i)=>({
   id:e.id??("expense-"+i+"-"+Date.now()),amount:Number(e.amount),category:String(e.category||"Other"),note:String(e.note||""),date:String(e.date)
  })): [];
@@ -464,6 +480,7 @@ function updateDashboard(){
  $("moneyWarning").textContent=warning;
  renderReports();renderGoal();renderDebts();
 }
+
 function fillBudget(){
  const map={salary:"salary",family:"family",food:"foodBudget",wifi:"wifi",advance:"advance",fixed:"fixed"};
  Object.entries(map).forEach(([k,id])=>{$(id).value=data.budget[k]});
@@ -477,6 +494,37 @@ $("saveBudget").onclick=()=>{
  data.paydayDay=day;
  if(!save()){alert("Your browser could not save the plan. Please free some browser storage and try again.");return}
  updateDashboard();alert("Your salary plan has been saved!");
+};
+
+// MONTHLY FOOD PAYMENT TRACKER
+$("foodPaymentMonth").value=today().slice(0,7);
+function renderFoodPayment(){
+ const month=$("foodPaymentMonth").value||today().slice(0,7);
+ const payment=data.foodPayments[month];
+ const paid=Math.min(230,Math.max(0,Number(payment?.amount)||0));
+ $("foodPaymentAmount").textContent=money(230);
+ $("foodPaymentRemaining").textContent=money(Math.max(0,230-paid));
+ $("foodPaymentStatus").textContent=paid>=230?"Paid":"Not paid";
+ $("foodPaymentStatus").style.background=paid>=230?"#e8f4ed":"#fff1e8";
+ $("foodPaymentDate").textContent=paid>=230?"Paid on "+(payment.date||"Date not recorded"):"No payment recorded for this month.";
+ $("markFoodPaid").style.display=paid>=230?"none":"inline-block";
+ $("undoFoodPaid").style.display=paid>=230?"inline-block":"none";
+ const entries=Object.entries(data.foodPayments).filter(([,p])=>Number(p.amount)>0).sort((a,b)=>b[0].localeCompare(a[0]));
+ $("foodPaymentHistory").innerHTML=entries.length?'<h3>Payment history</h3>'+entries.map(([m,p])=>`<div class="listitem"><span><b>${m}</b><div class="muted">${escapeHTML(p.date||"")}</div></span><strong class="green">${money(p.amount)} · Paid</strong></div>`).join(""):'<p class="empty">No food payments recorded yet.</p>';
+}
+$("foodPaymentMonth").addEventListener("change",renderFoodPayment);
+$("markFoodPaid").onclick=()=>{
+ const month=$("foodPaymentMonth").value;
+ if(!/^\d{4}-\d{2}$/.test(month)){alert("Choose a valid payment month.");return}
+ if(!confirm("Record AED 230 as paid for "+month+"?"))return;
+ data.foodPayments[month]={amount:230,date:today()};
+ if(!save()){alert("Could not save the food payment.");return}
+ renderFoodPayment();alert("AED 230 food payment saved as paid for "+month+".");
+};
+$("undoFoodPaid").onclick=()=>{
+ const month=$("foodPaymentMonth").value;
+ if(!confirm("Undo the AED 230 payment record for "+month+"?"))return;
+ delete data.foodPayments[month];save();renderFoodPayment();
 };
 
 // REMITTANCE CALCULATOR
@@ -844,6 +892,7 @@ fillBudget();
 syncPrayerSettings();
 renderPrayerTimes();
 renderExchange();
+renderFoodPayment();
 renderHabits();
 renderUAEJourney();
 renderExpenses();
